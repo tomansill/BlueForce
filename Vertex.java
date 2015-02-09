@@ -1,6 +1,7 @@
 /**
  * @author Thomas B. Ansill
- * @date April 08, 2014	
+ * @author Brian T. Podlisny
+ * @date February 09, 2015	
  * University: Rochester Institute of Technology
  * 			
  *			This program is to be used only for research purposes
@@ -13,11 +14,12 @@ public class Vertex{
 	private String label;
 	/** Value for vertex's neighbors list */
 	private ArrayList<String> neighbors;
-	/** Value for vertex's filled and unfilled status */
-	private boolean filled = false;
+	/** Value for vertex's state */
+	private short state = 0;
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param neighbors List of vertex's neighbors
+	 * @param state Vertex's current state
 	 */
 	public Vertex(String label, ArrayList<String> neighbors){
 		this.label = label;
@@ -25,23 +27,23 @@ public class Vertex{
 	}//End of constructor
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
-	 * @param filled Vertex's status of filled or unfilled
+	 * @param state Vertex's state
 	 * @param neighbors List of vertex's neighbors
 	 */
-	public Vertex(String label, boolean filled, ArrayList<String> neighbors){
+	public Vertex(String label, short state, ArrayList<String> neighbors){
 		this.label = label;
-		this.filled = filled;
+		this.state = state;
 		this.neighbors = neighbors;
 	}//End of constructor
 	
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param neighbors List of vertex's neighbors
-	 * @param filled Vertex's status of filled or unfilled
+	 * @param filled Vertex's state
 	 */
-	public Vertex(String label, ArrayList<String> neighbors, boolean filled){
+	public Vertex(String label, ArrayList<String> neighbors, short state){
 		this.label = label;
-		this.filled = filled;
+		this.state = state;
 		this.neighbors = neighbors;
 	}//End of constructor
 	
@@ -54,14 +56,18 @@ public class Vertex{
 	 */
 	public ArrayList<String> getNeighbors(){return neighbors;}
 	/** Accessor for vertex's filled status
-     * @return filled or unfilled
+     * @return Vertex's state
 	 */
-	public boolean isFilled(){return filled;}
+	public short state(){return this.state;}
 	/** Hashing Method - Not sure if necessary anymore */
 	public int hashCode(){return label.hashCode();}
-	/** Fills the vertex */
-	public void fill(){ this.filled = true; }
-	/** Unfills the vertex */	
-	public void unfill(){ this.filled = false; }
+	/** forces the vertex a specific number
+	 * @param state state of force 
+ 	 */
+	public void force(short state){ this.state = state; }
+	/** Forces the vertex */
+	public void force(){ this.state += 1; }
+	/** Zeroes the vertex */
+	public void blank(){ this.state = 0; }
 	
 }//End of class
