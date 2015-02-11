@@ -14,6 +14,8 @@ public class Vertex{
 	private String label;
 	/** Value for vertex's neighbors list */
 	private ArrayList<String> neighbors;
+	/** Coordinate point for a given vertex */
+	private int[] coordinate;
 	/** Value for vertex's state */
 	private short state = 0;
 	/** Parametrized Constructor for Vertex Object
@@ -35,16 +37,29 @@ public class Vertex{
 		this.state = state;
 		this.neighbors = neighbors;
 	}//End of constructor
-	
+
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param neighbors List of vertex's neighbors
-	 * @param filled Vertex's state
+	 * @param coordinate coordinate of vertex
 	 */
-	public Vertex(String label, ArrayList<String> neighbors, short state){
+	public Vertex(String label, ArrayList<String> neighbors, int[] coordinate){
+		this.label = label;
+		this.neighbors = neighbors;
+		this.coordinate = coordinate;		
+
+	}//End of constructor
+	/** Parametrized Constructor for Vertex Object
+	 * @param label Vertex Label
+	 * @param state Vertex's state
+	 * @param neighbors List of vertex's neighbors
+	 * @param coordinate coordinate of vertex
+	 */
+	public Vertex(String label, short state, ArrayList<String> neighbors, int[] coordinate){
 		this.label = label;
 		this.state = state;
 		this.neighbors = neighbors;
+		this.coordinate = coordinate;
 	}//End of constructor
 	
 	/** Accessor for vertex's label
@@ -55,6 +70,10 @@ public class Vertex{
      * @return list of neighbors
 	 */
 	public ArrayList<String> getNeighbors(){return neighbors;}
+	/** Acessor for vertex's coordinate
+	* @return coordinate
+	*/
+	public int[] getCoordinate(){ return coordinate;}
 	/** Accessor for vertex's filled status
      * @return Vertex's state
 	 */
@@ -67,6 +86,7 @@ public class Vertex{
 	public void force(short state){ this.state = state; }
 	/** Forces the vertex */
 	public void force(){ this.state += 1; }
+
 	/** Zeroes the vertex */
 	public void blank(){ this.state = 0; }
 	
