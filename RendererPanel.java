@@ -27,7 +27,6 @@ public class RendererPanel extends JPanel{
 		g.setColor(Color.BLACK);
 
 		//Begin drawing
-		g.fillOval((int)(scale*20), (int)(scale*20), (int)(scale*20), (int)(scale*20));
 	}//End of update method
 	private void drawVertex(Vertex v, Graphics2D g){
 		g.fillOval((int)(scale*20), (int)(scale*20), (int)(scale*20), (int)(scale*20));

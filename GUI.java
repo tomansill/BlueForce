@@ -1,8 +1,11 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+//Remove later
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class GUI extends JFrame{
-	private JPanel screen = null;
+	private RendererPanel screen = null;
 	//private ImageBuffer[] buffer = null;
 	private byte bufferNumber = 0;
 	public GUI(){
