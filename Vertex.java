@@ -1,7 +1,7 @@
 /**
  * @author Thomas B. Ansill
  * @author Brian T. Podlisny
- * @date February 09, 2015	
+ * @date February 16, 2015	
  * University: Rochester Institute of Technology
  * 			
  *			This program is to be used only for research purposes
@@ -15,18 +15,19 @@ public class Vertex{
 	/** Value for vertex's neighbors list */
 	private ArrayList<String> neighbors;
 	/** Coordinate point for a given vertex */
-	private int[] coordinate;
+	private int[] coordinate = {0, 0, 0};
 	/** Value for vertex's state */
 	private short state = 0;
+
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param neighbors List of vertex's neighbors
-	 * @param state Vertex's current state
 	 */
 	public Vertex(String label, ArrayList<String> neighbors){
 		this.label = label;
 		this.neighbors = neighbors;
 	}//End of constructor
+
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param state Vertex's state
@@ -49,6 +50,7 @@ public class Vertex{
 		this.coordinate = coordinate;		
 
 	}//End of constructor
+
 	/** Parametrized Constructor for Vertex Object
 	 * @param label Vertex Label
 	 * @param state Vertex's state
@@ -77,15 +79,21 @@ public class Vertex{
 	/** Accessor for vertex's filled status
      * @return Vertex's state
 	 */
-	public short state(){return this.state;}
+	public short getState(){return this.state;}
+
 	/** Hashing Method - Not sure if necessary anymore */
 	public int hashCode(){return label.hashCode();}
-	/** forces the vertex a specific number
+
+	/** forces the vertex to a specific number
 	 * @param state state of force 
  	 */
 	public void force(short state){ this.state = state; }
+
 	/** Forces the vertex */
 	public void force(){ this.state += 1; }
+
+	/** Reverse of force() */
+	public void unforce(){ this.state -= 1; }
 
 	/** Zeroes the vertex */
 	public void blank(){ this.state = 0; }
