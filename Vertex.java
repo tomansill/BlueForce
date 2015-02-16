@@ -19,18 +19,18 @@ public class Vertex{
 	/** Value for vertex's state */
 	private short state = 0;
 	/** Parametrized Constructor for Vertex Object
-	 *	@param label Vertex Label
-	 *	@param neighbors List of vertex's neighbors
-	 *	@param state Vertex's current state
+	 * @param label Vertex Label
+	 * @param neighbors List of vertex's neighbors
+	 * @param state Vertex's current state
 	 */
 	public Vertex(String label, ArrayList<String> neighbors){
 		this.label = label;
 		this.neighbors = neighbors;
 	}//End of constructor
 	/** Parametrized Constructor for Vertex Object
-	 *	@param label Vertex Label
-	 *	@param state Vertex's state
-	 *	@param neighbors List of vertex's neighbors
+	 * @param label Vertex Label
+	 * @param state Vertex's state
+	 * @param neighbors List of vertex's neighbors
 	 */
 	public Vertex(String label, short state, ArrayList<String> neighbors){
 		this.label = label;
@@ -39,9 +39,9 @@ public class Vertex{
 	}//End of constructor
 
 	/** Parametrized Constructor for Vertex Object
-	 *	@param label Vertex Label
-	 *	@param neighbors List of vertex's neighbors
-	 *	@param coordinate coordinate of vertex
+	 * @param label Vertex Label
+	 * @param neighbors List of vertex's neighbors
+	 * @param coordinate coordinate of vertex
 	 */
 	public Vertex(String label, ArrayList<String> neighbors, int[] coordinate){
 		this.label = label;
@@ -50,10 +50,10 @@ public class Vertex{
 
 	}//End of constructor
 	/** Parametrized Constructor for Vertex Object
-	 *	@param label Vertex Label
-	 *	@param state Vertex's state
-	 *	@param neighbors List of vertex's neighbors
-	 *	@param coordinate coordinate of vertex
+	 * @param label Vertex Label
+	 * @param state Vertex's state
+	 * @param neighbors List of vertex's neighbors
+	 * @param coordinate coordinate of vertex
 	 */
 	public Vertex(String label, short state, ArrayList<String> neighbors, int[] coordinate){
 		this.label = label;
@@ -63,25 +63,25 @@ public class Vertex{
 	}//End of constructor
 	
 	/** Accessor for vertex's label
-     *	@return label
+     * @return label
 	 */
 	public String getLabel(){return label;}
 	/** Accessor for vertex's list of neighbors
-     *	@return list of neighbors
+     * @return list of neighbors
 	 */
 	public ArrayList<String> getNeighbors(){return neighbors;}
 	/** Acessor for vertex's coordinate
-	 *	@return coordinate
-	 */
+	* @return coordinate
+	*/
 	public int[] getCoordinate(){ return coordinate;}
 	/** Accessor for vertex's filled status
-     *	@return Vertex's state
+     * @return Vertex's state
 	 */
 	public short state(){return this.state;}
 	/** Hashing Method - Not sure if necessary anymore */
 	public int hashCode(){return label.hashCode();}
 	/** forces the vertex a specific number
-	 *	@param state state of force 
+	 * @param state state of force 
  	 */
 	public void force(short state){ this.state = state; }
 	/** Forces the vertex */
