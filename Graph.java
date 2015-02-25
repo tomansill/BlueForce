@@ -93,7 +93,7 @@ public class Graph{
     /** Accessor for fill status of a vertex
      *  @return fill status
      */
-    public short getState(String vertex, short n){
+    public short getState(String vertex){
         if(adjList.containsKey(vertex)) return adjList.get(vertex).getState();
         return -1;
     }//End isFilled method
