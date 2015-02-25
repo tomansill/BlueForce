@@ -61,6 +61,7 @@ public class Graph{
 	/** Parametrized Constructor for Graph object
 	 *  @param filename of text file to be parsed and converted to Graph object
 	 */
+	 /*
 	public Graph(File filename){
 		FileReader fr = null;
 		adjList = new TreeMap<String, Vertex>();
@@ -79,7 +80,7 @@ public class Graph{
 		}
 		size = adjList.size();
 	}//End of constructor
-	
+	*/
 	/** Accessor for cardinality of the graph
 	 *  @return cardinality
 	 */
