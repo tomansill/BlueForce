@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 public class GraphReader{
 	private GraphReader(){}
-	public static Graph readGraph(File filepath) throws Exception, IOException{
+	public static TreeMap<String, Vertex> readGraph(File filepath) throws Exception, IOException{
 		if(!filepath.exists()) throw new IOException("File does not exist!");	
 		FileReader fr = new FileReader(filepath);
 		int currChar = 0;
@@ -20,7 +20,7 @@ public class GraphReader{
 				}
 			}
 		}//End of loop
-		return new Graph(map);
+		return map;
 	}//End of readGraph function
 	private static Vertex readVertex(FileReader fr) throws Exception{
 		int currChar = 0;
