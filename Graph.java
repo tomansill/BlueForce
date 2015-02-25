@@ -214,7 +214,7 @@ public class Graph{
 			if(this.getNumOfNVertices(n) != ngraph.getNumOfNVertices(n)) return false;
 			for(String vertex : this.getVertices()){
 				if(!ngraph.contains(vertex)) return false;
-				if(this.getState(vertex, n) != ngraph.getState(vertex, n)) return false;
+				if(this.getState(vertex) != ngraph.getState(vertex)) return false;
 				if(this.getNeighbors(vertex).size() != ngraph.getNeighbors(vertex).size()) return false;
 			}//End of for loop
 			return true;
