@@ -24,9 +24,15 @@ public class RendererPanel extends JPanel{
 		rh.put(RenderingHints.KEY_RENDERING,
 							RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
-		g.setColor(Color.BLACK);
+		g2d.setColor(Color.BLACK);
 
 		//Begin drawing
+		if(graph != null){
+			for(String vertex : graph.getVertices()){
+				System.out.println("Vertex: " + vertex);
+				drawVertex(graph.getVertex(vertex), g2d);
+			}//End of loop
+		}
 	}//End of update method
 	private void drawVertex(Vertex v, Graphics2D g){
 		g.fillOval((int)(scale*20), (int)(scale*20), (int)(scale*20), (int)(scale*20));
