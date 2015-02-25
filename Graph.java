@@ -61,34 +61,24 @@ public class Graph{
 	/** Parametrized Constructor for Graph object
 	 *  @param filename of text file to be parsed and converted to Graph object
 	 */
-	 /*
 	public Graph(File filename){
-		BufferedReader br = null;
+		FileReader fr = null;
 		adjList = new TreeMap<String, Vertex>();
 		try{
-			String cLine;
-			br = new BufferedReader(new FileReader(filename));
-			while((cLine = br.readLine()) != null){
-				String[] pieces = cLine.split("\\s+");
-				String label;
-				if(pieces[0].charAt(pieces[0].length()-1) == '#'){
-					label = pieces[0].substring(0, pieces[0].length()-1);
-				}else{
-					label = pieces[0];	
-					stateCount.put(vertex.getState(), stateCount.get(vertex.getState())++); <--
-				}
-				ArrayList<String> neighbors = new ArrayList<String>();
-				for(int i = 1; i < pieces.length; i++){
-					neighbors.add(pieces[i]);
-				}//End of for loop
-				adjList.put(label, new Vertex(label, state, neighbors, coordinate)); <--
-			}//End of while loop
+			fr = new FileReader(filename);
+			char current;
+			boolean parenthense = false;
+			while((current = fr.read()) != -1){
+				if(current == '(') parenthense = true;
+			}//End of loop
 		}catch(IOException ioe){
 			System.err.println("error reading the file!");
+		}finally{
+			try{fr.close()
+			}catch(IOException ioe) System.err.println("Error closing the file!");
 		}
 		size = adjList.size();
 	}//End of constructor
-	*/
 	
 	/** Accessor for cardinality of the graph
 	 *  @return cardinality
