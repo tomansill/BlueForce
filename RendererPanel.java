@@ -29,6 +29,7 @@ public class RendererPanel extends JPanel{
 		//Begin drawing
 		if(graph != null){
 			for(String vertex : graph.getVertices()){
+				System.out.println("Vertex: " + vertex);
 				drawVertex(graph.getVertex(vertex), g2d);
 			}//End of loop
 		}
