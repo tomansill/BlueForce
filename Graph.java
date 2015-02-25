@@ -61,26 +61,12 @@ public class Graph{
 	/** Parametrized Constructor for Graph object
 	 *  @param filename of text file to be parsed and converted to Graph object
 	 */
-	 /*
 	public Graph(File filename){
-		FileReader fr = null;
-		adjList = new TreeMap<String, Vertex>();
 		try{
-			fr = new FileReader(filename);
-			char current;
-			boolean parenthense = false;
-			while((current = fr.read()) != -1){
-				if(current == '(') parenthense = true;
-			}//End of loop
-		}catch(IOException ioe){
-			System.err.println("error reading the file!");
-		}finally{
-			try{fr.close()
-			}catch(IOException ioe) System.err.println("Error closing the file!");
-		}
-		size = adjList.size();
+			adjList = GraphReader.readGraph(filename);
+			this.size = adjList.size();
+		}catch(Exception e){ System.out.println("Invalid file!");}
 	}//End of constructor
-	*/
 	/** Accessor for cardinality of the graph
 	 *  @return cardinality
 	 */
@@ -228,7 +214,7 @@ public class Graph{
 			if(this.getNumOfNVertices(n) != ngraph.getNumOfNVertices(n)) return false;
 			for(String vertex : this.getVertices()){
 				if(!ngraph.contains(vertex)) return false;
-				if(this.getState(vertex, n) != ngraph.getState(vertex, n)) return false;
+				if(this.getState(vertex) != ngraph.getState(vertex)) return false;
 				if(this.getNeighbors(vertex).size() != ngraph.getNeighbors(vertex).size()) return false;
 			}//End of for loop
 			return true;
