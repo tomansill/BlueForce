@@ -67,28 +67,30 @@ public class Graph{
 			this.size = adjList.size();
 		}catch(Exception e){ System.out.println("Invalid file!");}
 	}//End of constructor
+
 	/** Accessor for cardinality of the graph
 	 *  @return cardinality
 	 */
-	public int getSize(){ return size; }
-	
-	/** Accessor for list of vertices in the graph
-	 *  @return list of vertices in the graph
-	 */
+	public int getSize(){ return size; }//End of getSize method
 
-    /** Accessor for fill status of a vertex
-     *  @return fill status
+    /** Accessor for state of a vertex
+     *  @param vertex vertex
+     *  @return state of vertex
      */
     public short getState(String vertex){
         if(adjList.containsKey(vertex)) return adjList.get(vertex).getState();
         return -1;
-    }//End isFilled method
+    }//End getState method
 
+    /**
+     * Gets the list of vertices
+     * @return vertices
+     */
 	public ArrayList<String> getVertices(){
 		ArrayList<String> list = new ArrayList<String>();
 		for(Map.Entry<String, Vertex> entry: adjList.entrySet()){
 			list.add((String)entry.getKey());
-		}//End of for loop
+		}
 		return list;
 	}//End of getVertices method
 	
@@ -100,7 +102,7 @@ public class Graph{
 		for(Map.Entry<String, Vertex> entry: adjList.entrySet()){
 			String label = (String)entry.getKey();
 			if(getVertex(label).getState() == n) list.add(label);
-		}//End of for loop
+		}
 		return list;
 	}//End of getNVertices method
 	
@@ -122,7 +124,7 @@ public class Graph{
 		ArrayList<String> list = new ArrayList<String>();
 		for(String neighbor : adjList.get(vertex).getNeighbors()){
 			if(adjList.get(neighbor).getState()==n) list.add(neighbor);
-		}//End of for loop
+		}
 		return list;
 	}//End of getNNeighbors method
 
@@ -137,9 +139,9 @@ public class Graph{
         ArrayList<String> list = new ArrayList<String>();
         for(String neighbor : adjList.get(vertex).getNeighbors()){
             if(adjList.get(neighbor).getState() < n) list.add(neighbor);
-        }//End of for loop
+        }
         return list;
-    }
+    }//End of getNeighborsBelowN method
 
     /**
      * Accessor for list of vertex's n neighbors that are above its value in the graph
@@ -153,9 +155,9 @@ public class Graph{
         ArrayList<String> list = new ArrayList<String>();
         for(String neighbor : adjList.get(vertex).getNeighbors()){
             if(adjList.get(neighbor).getState() > n) list.add(neighbor);
-        }//End of for loop
+        }
         return list;
-    }
+    }//End of GetNeighborsAboveN method
 	
 	/** Accessor for number of vertex's unfilled neighbors in the graph
 	 *  @param vertex name
@@ -166,7 +168,7 @@ public class Graph{
 		int count = 0;
 		for(String neighbor : adjList.get(vertex).getNeighbors()){
 			if(adjList.get(neighbor).getState()!=n) count++;
-		}//End of for loop
+		}
 		return count;
 	}//End of getNumOfUnfilledNeighbors method
 
@@ -193,7 +195,7 @@ public class Graph{
 				stateCount.put(vertex.getState(), count);
 			}
 		}
-	}//End of fillVertex method
+	}//End of changeVertex method
 
 	/** Formats the graph in string form
 	 * @return String form of Graph 
@@ -207,13 +209,13 @@ public class Graph{
 			toString += ": ";
 			for(String neighbor : vertex.getNeighbors()){
 				toString += " " + neighbor;
-			}//End of for loop
+			}
 			for(int i = 0; i < vertex.getNeighbors().size(); i++){
 				toString += vertex.getNeighbors().get(i);
 				if(i != vertex.getNeighbors().size()-1){
 					toString += ", ";
 				}
-			}//End of for loop
+			}
 			toString += "\n";
 		}
 		return toString;
@@ -232,7 +234,7 @@ public class Graph{
 			}else{
 				hash -= label.hashCode() * 3;
 			}
-		}//End of for loop
+		}
 		hash = hash * 17;
 		return hash;
 	}//End of hashCode method
@@ -246,7 +248,7 @@ public class Graph{
 				if(!ngraph.contains(vertex)) return false;
 				if(this.getState(vertex) != ngraph.getState(vertex)) return false;
 				if(this.getNeighbors(vertex).size() != ngraph.getNeighbors(vertex).size()) return false;
-			}//End of for loop
+			}
 			return true;
 		}
 		return false;

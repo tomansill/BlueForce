@@ -3,8 +3,12 @@ import java.util.Collections;
 
 public class ForcingSet {
 
+    /**
+     * Executes "Flooding" algorithm:
+     * @param original The original graph
+     * @return Flooded graph
+     */
         public Graph FloodVertex(Graph original) {
-
             Graph graph = new Graph(original);
             ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
             ArrayList<String> vertices = graph.getVertices();
@@ -18,49 +22,63 @@ public class ForcingSet {
             while (!doneness.isEmpty()) {
                 Collections.sort(doneness);
                 EntryVertex maxVertex = doneness.get(0);
-                ArrayList<String> neighbors = graph.getNeighborsBelowN(maxVertex.vertex, maxVertex.value);
-                if (maxVertex.capacity < neighbors.size()) {
+                ArrayList<String> neighbors = graph.getNeighborsBelowN(maxVertex.vertex, maxVertex.capacity);
+                if (maxVertex.value < neighbors.size()) {
                     doneness.remove(0);
                 } else {
                     for (String currVertex: neighbors) {
                         graph.getVertex(currVertex).force();
-                        maxVertex.capacity--;
+                        maxVertex.value--;
                     }
                 }
             }
             return graph;
-        }
+        }//End of FloodVertex method
 }
 
+/**
+ * To help with sorting the graph in respect to the current maximum vertex
+ */
 class EntryVertex implements Comparable<EntryVertex> {
-
     String vertex;
     Short capacity;
     Short value;
 
+    /**
+     * Constructor
+     * @param vertex vertex
+     * @param capacity the starting amount that vertex contains
+     * @param value the current amount that vertex contains
+     */
     public EntryVertex(String vertex, Short capacity, Short value) {
         this.vertex = vertex;
         this.capacity = capacity;
         this.value = value;
-    }
+    }//End of EntryVertex Constructor
 
+    /**
+     * comparator for EntryVertex objects
+     * @param obj EntryVertex
+     * @return 1, 0, or -1 depending on comparable conditions
+     */
     public int compareTo(EntryVertex obj) {
-        if (obj.getValue() < this.value) {
+        if (obj.getCapacity() < this.capacity) {
             return 1;
-        } else if (obj.getValue().equals(this.value)) {
+        } else if (obj.getCapacity().equals(this.capacity)) {
             return 0;
         } else {
             return -1;
         }
-    }
+    }//End of compareTo comparator
 
-    public Short getValue() {
+    /**
+     * accessor for capacity
+     * @return capacity
+     */
+    public Short getCapacity() {
         return this.value;
-    }
+    }// End of getCapacity method
 
-    public Vertex findCorrespondingVertex(Graph graph) {
-        return graph.getVertex(this.vertex);
-    }
 }
 
 /**
