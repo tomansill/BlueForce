@@ -115,7 +115,7 @@ public class Graph{
 	
 	/** Accessor for list of vertex's n neighbors in the graph
 	 *  @param vertex name
-	 *  @return list of n vertices neighbors
+	 *  @return list of n= vertices neighbors
 	 */
 	public ArrayList<String> getNNeighbors(String vertex, Short n){
 		if(!adjList.containsKey(vertex)) return null;
@@ -126,6 +126,36 @@ public class Graph{
 		return list;
 	}//End of getNNeighbors method
 
+    /**
+     * Accessor for list of vertex's n neighbors that are below its value in the graph
+     * @param n state
+     * @param vertex name
+     * @return list of n> vertices neighbors
+     */
+    public ArrayList<String> getNeighborsBelowN (String vertex, Short n) {
+        if(!adjList.containsKey(vertex)) return null;
+        ArrayList<String> list = new ArrayList<String>();
+        for(String neighbor : adjList.get(vertex).getNeighbors()){
+            if(adjList.get(neighbor).getState() < n) list.add(neighbor);
+        }//End of for loop
+        return list;
+    }
+
+    /**
+     * Accessor for list of vertex's n neighbors that are above its value in the graph
+     * @param n state
+     * @param vertex name
+     * @return list of n< vertices neighbors
+     */
+
+    public ArrayList<String> getNeighborsAboveN (String vertex, Short n) {
+        if(!adjList.containsKey(vertex)) return null;
+        ArrayList<String> list = new ArrayList<String>();
+        for(String neighbor : adjList.get(vertex).getNeighbors()){
+            if(adjList.get(neighbor).getState() > n) list.add(neighbor);
+        }//End of for loop
+        return list;
+    }
 	
 	/** Accessor for number of vertex's unfilled neighbors in the graph
 	 *  @param vertex name

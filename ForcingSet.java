@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class ForcingSet {
 
@@ -19,7 +18,7 @@ public class ForcingSet {
             while (!doneness.isEmpty()) {
                 Collections.sort(doneness);
                 EntryVertex maxVertex = doneness.get(0);
-                ArrayList<String> neighbors = maxVertex.findCorrespondingVertex(graph).getNeighborsBelowN(maxVertex.value);
+                ArrayList<String> neighbors = graph.getNeighborsBelowN(maxVertex.vertex, maxVertex.value);
                 if (maxVertex.capacity < neighbors.size()) {
                     doneness.remove(0);
                 } else {
