@@ -33,13 +33,21 @@ public class GraphReader{
 				if(currChar == '"') label = readString(fr);
 				else if(currChar == '}'){
 					if(label != null || state != -1 || neighbors != null){
-						if(coordinate != null) return new Vertex(label, state, neighbors, coordinate); 
-						else return new Vertex(label, state, neighbors);
+						System.out.print("label: " + label + " state: " + state);
+						if(coordinate != null){
+							System.out.print(" coordinate: ");
+							for(int i = 0; i < 3; i++) System.out.print(coordinate[i] + " ");
+							System.out.println(" neighbors: " + neighbors);
+							return new Vertex(label, state, neighbors, coordinate); 
+						}else{
+							System.out.println(" neighbors: " + neighbors);
+							return new Vertex(label, state, neighbors);
+						}
 					}
 				}else if(currChar == '['){
 					if(neighbors == null) neighbors = readNeighbors(fr);	
 					else coordinate = readCoordinates(fr); 
-				}else if(Character.isLetter((char)currChar) || currChar == '-') state = readState(fr, currChar);  
+				}else if((!Character.isLetter((char)currChar) && Character.isDigit((char)currChar)) || currChar == '-') state = readState(fr, currChar);  
 			}	
 		}//End of loop
 		throw new Exception("Input is not properly formatted!");
@@ -55,13 +63,18 @@ public class GraphReader{
 		throw new Exception("Input is not properly formatted!");
 	}//End of readString function
 
-	private static short readState(FileReader fr, int prev) throws Exception{
+	private static short readState(FileReader fr, int prevChar) throws Exception{
 		StringBuilder str = new StringBuilder();
-		str.append((char)prev);
-		int currChar = 0;
-		while((currChar = fr.read()) != -1){
-			if(!Character.isLetter((char)currChar)) str.append((char)currChar);
-			else return Short.parseShort(str.toString());
+		int currChar = prevChar;
+		boolean num = false;
+		while(currChar != -1){
+			if(Character.isDigit((char)currChar)){ 
+				str.append((char)currChar);
+				num = true;
+			}else if((currChar == ',' || currChar == ']') && num){
+				return Short.parseShort(str.toString());
+			} 
+			currChar = fr.read();
 		}//End of loop
 		throw new Exception("Input is not properly formatted!");
 	}//End of readState function

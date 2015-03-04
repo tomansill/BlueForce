@@ -25,11 +25,26 @@ public class RendererPanel extends JPanel{
 							RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		g.setColor(Color.BLACK);
-
+		//Get all data before drawing
+		HashSet<ArrayList<Vector>> edgeList = new HashSet<ArrayList<Vector>>();
+		ArrayList<Vector> vertices = new ArrayList<Vector>();
+		for(String v : graph.getVertices()){
+			Vertex ver = graph.getVertex(v);
+			int[] vcoord = ver.getCoordinate();
+			for(String neighbor : ver.getNeighbors()){
+				Vertex neg = graph.getVertex(neighbor);	
+				int[] coord = neg.getCoordinate();
+			}//End of loop
+		}//End of loop
 		//Begin drawing
+		for(String v : graph.getVertices()){
+			Vertex ver = graph.getVertex(v);
+			//Append the edges list
+			drawVertex(ver, g2d);	
+		}//End of loop.
 	}//End of update method
-	private void drawVertex(Vertex v, Graphics2D g){
-		g.fillOval((int)(scale*20), (int)(scale*20), (int)(scale*20), (int)(scale*20));
+	private void drawVertex(int x, int y, Graphics2D g){
+		g.fillOval((int)(scale*coordinate[0]), (int)(scale*coordinate[1]), (int)(scale*20), (int)(scale*20));
 	}//End of drawVertex method
 	@Override
 	public void paintComponent(Graphics g){

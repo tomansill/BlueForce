@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 //Remove later
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.io.File;
 
 public class GUI extends JFrame{
 	private RendererPanel screen = null;
@@ -16,7 +17,7 @@ public class GUI extends JFrame{
 		this.setSize(width, height);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//Creates new JPanel
-		screen = new RendererPanel();	
+		screen = new RendererPanel(new Graph(new File("Graphs/p5.txt")));	
 		this.add(screen);
 
 		//Make JFrame visible
