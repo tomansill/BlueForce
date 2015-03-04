@@ -1,10 +1,77 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ForcingSet {
+
+        public Graph FloodVertex(Graph original) {
+
+            Graph graph = new Graph(original);
+            ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
+            ArrayList<String> vertices = graph.getVertices();
+
+            for (String currVertex: vertices) {
+                Short capacity = graph.getState(currVertex);
+                Short value = graph.getState(currVertex);
+                doneness.add(new EntryVertex(currVertex, capacity, value));
+            }
+
+            while (!doneness.isEmpty()) {
+                Collections.sort(doneness);
+                EntryVertex maxVertex = doneness.get(0);
+                ArrayList<String> neighbors = maxVertex.findCorrespondingVertex(graph).getNeighborsBelowN(maxVertex.value);
+                if (maxVertex.capacity < neighbors.size()) {
+                    doneness.remove(0);
+                } else {
+                    for (String currVertex: neighbors) {
+                        graph.getVertex(currVertex).force();
+                        maxVertex.capacity--;
+                    }
+                }
+            }
+            return graph;
+        }
+}
+
+class EntryVertex implements Comparable<EntryVertex> {
+
+    String vertex;
+    Short capacity;
+    Short value;
+
+    public EntryVertex(String vertex, Short capacity, Short value) {
+        this.vertex = vertex;
+        this.capacity = capacity;
+        this.value = value;
+    }
+
+    public int compareTo(EntryVertex obj) {
+        if (obj.getValue() < this.value) {
+            return 1;
+        } else if (obj.getValue().equals(this.value)) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    public Short getValue() {
+        return this.value;
+    }
+
+    public Vertex findCorrespondingVertex(Graph graph) {
+        return graph.getVertex(this.vertex);
+    }
+}
+
 /**
  * @author Thomas B. Ansill
- * @date April 08, 2014	
+ * @date April 08, 2014
  * University: Rochester Institute of Technology
  * 			
  *			This program is to be used only for research purposes
- */
+ *//*
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,10 +83,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ForcingSet{
-	/** Zero Forcing Set Algorithm
+	*/
+/** Zero Forcing Set Algorithm
 	 * @param graph to be solved
 	 * @return Solved graph or null as unsolved graph
-	 */
+	 *//*
+
 	public static Graph ZeroForcingSet(Graph original, int forcingnumber){
 		//Retains the original graph and create a working copy of original
 		Graph graph = new Graph(original);
@@ -421,4 +490,4 @@ public class ForcingSet{
 		result = reverse.getResult();
 		return result;
 	}//End of unionSearcher method
-}//End of class
+}//End of class*/
