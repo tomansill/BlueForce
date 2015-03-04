@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 //Remove later
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.io.File;
 
 public class GUI extends JFrame{
 	private RendererPanel screen = null;
