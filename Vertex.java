@@ -80,6 +80,12 @@ public class Vertex{
 	 *	@param point location
 	 */
 	public synchronized void setCoordinate(Point2D point){ this.coordinate.setLocation(point); }
+	
+	/** sets the coordinate of the point
+	 *	@param x x-coordinate
+	 *	@param y y-coordinate
+	 */
+	public synchronized void setCoordinate(int x, int y){ this.coordinate.setLocation(new Point2D.Float(x, y)); }
 
 	/** Accessor for vertex's filled status
      *	@return Vertex's state
@@ -93,14 +99,4 @@ public class Vertex{
 	 *	@param state State 
  	 */
 	public synchronized void setState(short state){ this.state = state; }
-
-	/* Forces the vertex */
-	//public synchronized void force(){ this.state += 1; }
-
-	/* Reverse of force() */
-	//public synchronized void unforce(){ this.state -= 1; }
-
-	/* Resets the vertex's state to zero */
-	//public synchronized void blank(){ this.state = 0; }
-	
 }//End of class
