@@ -1,101 +1,106 @@
 /**
  * @author Thomas B. Ansill
  * @author Brian T. Podlisny
- * @date February 16, 2015	
+ * @date March 5, 2015	
  * University: Rochester Institute of Technology
  * 			
  *			This program is to be used only for research purposes
  */
 
 import java.util.ArrayList;
+import java.awt.geom.Point2D;
 
 public class Vertex{
 	/** Value for vertex label */
 	private String label;
-	/** Value for vertex's neighbors list */
-	private ArrayList<String> neighbors;
 	/** Coordinate point for a given vertex */
-	private int[] coordinate = {0, 0, 0};
+	private Point2D coordinate;
 	/** Value for vertex's state */
-	private short state = 0;
+	private short state;
 
 	/** Parametrized Constructor for Vertex Object
-	 * @param label Vertex Label
-	 * @param neighbors List of vertex's neighbors
+	 *	@param label Vertex Label
 	 */
-	public Vertex(String label, ArrayList<String> neighbors){
+	public Vertex(String label){
 		this.label = label;
-		this.neighbors = neighbors;
+		this.state = 0;
+		this.coordinate = new Point2D.Float();
 	}//End of constructor
 
 	/** Parametrized Constructor for Vertex Object
-	 * @param label Vertex Label
-	 * @param state Vertex's state
-	 * @param neighbors List of vertex's neighbors
+	 *	@param label Vertex Label
+	 *	@param state Vertex's state
 	 */
-	public Vertex(String label, short state, ArrayList<String> neighbors){
+	public Vertex(String label, short state){
 		this.label = label;
 		this.state = state;
-		this.neighbors = neighbors;
+		this.coordinate = new Point2D.Float();
 	}//End of constructor
 
 	/** Parametrized Constructor for Vertex Object
-	 * @param label Vertex Label
-	 * @param neighbors List of vertex's neighbors
-	 * @param coordinate coordinate of vertex
+	 *	@param label Vertex Label
+	 *	@param coordinate coordinate of vertex
 	 */
-	public Vertex(String label, ArrayList<String> neighbors, int[] coordinate){
+	public Vertex(String label, Point2D coordinate){
 		this.label = label;
-		this.neighbors = neighbors;
+		this.state = 0;
 		this.coordinate = coordinate;		
-
 	}//End of constructor
 
 	/** Parametrized Constructor for Vertex Object
-	 * @param label Vertex Label
-	 * @param state Vertex's state
-	 * @param neighbors List of vertex's neighbors
-	 * @param coordinate coordinate of vertex
+	 *	@param label Vertex Label
+	 *	@param state Vertex's state
+	 *	@param coordinate coordinate of vertex
 	 */
-	public Vertex(String label, short state, ArrayList<String> neighbors, int[] coordinate){
+	public Vertex(String label, short state, Point2D coordinate){
 		this.label = label;
 		this.state = state;
-		this.neighbors = neighbors;
 		this.coordinate = coordinate;
 	}//End of constructor
 	
 	/** Accessor for vertex's label
-     * @return label
+     *	@return label
 	 */
 	public String getLabel(){return label;}
-	/** Accessor for vertex's list of neighbors
-     * @return list of neighbors
-	 */
-	public ArrayList<String> getNeighbors(){return neighbors;}
+
 	/** Acessor for vertex's coordinate
-	* @return coordinate
-	*/
-	public int[] getCoordinate(){ return coordinate;}
-	/** Accessor for vertex's filled status
-     * @return Vertex's state
+	 *	@return coordinate
 	 */
-	public short getState(){return this.state;}
+	public synchronized Point2D getCoordinate(){ return coordinate;}
+
+	/** Move the vertex
+	 *	@param x delta in x axis
+	 *	@param y delta in y axis
+	 */
+	public synchronized void move(float x, float y){
+		this.coordinate.setLocation(this.coordinate.getX() + x, this.coordinate.getY() + y);	
+	}//End of move method
+
+	/** sets the coordinate of the point
+	 *	@param point location
+	 */
+	public synchronized void setCoordinate(Point2D point){ this.coordinate.setLocation(point); }
+
+	/** Accessor for vertex's filled status
+     *	@return Vertex's state
+	 */
+	public synchronized short getState(){return this.state;}
 
 	/** Hashing Method - Not sure if necessary anymore */
 	public int hashCode(){return label.hashCode();}
 
-	/** forces the vertex to a specific number
-	 * @param state state of force 
+	/** Sets the vertex to a specific state
+	 *	@param state State 
  	 */
-	public void force(short state){ this.state = state; }
+	public synchronized void setState(short state){ this.state = state; }
 
-	/** Forces the vertex */
-	public void force(){ this.state += 1; }
+	/* Forces the vertex */
+	//public synchronized void force(){ this.state += 1; }
 
-	/** Reverse of force() */
-	public void unforce(){ this.state -= 1; }
+	/* Reverse of force() */
+	//public synchronized void unforce(){ this.state -= 1; }
 
-	/** Zeroes the vertex */
-	public void blank(){ this.state = 0; }
+	/* Resets the vertex's state to zero */
+	//public synchronized void blank(){ this.state = 0; }
 	
 }//End of class
