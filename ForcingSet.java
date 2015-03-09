@@ -1,84 +1,103 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 public class ForcingSet {
 
     /**
      * Executes "Flooding" algorithm:
+     *
      * @param original The original graph
      * @return Flooded graph
      */
-        public Graph FloodVertex(Graph original) {
-            Graph graph = new Graph(original);
-            ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
-            ArrayList<String> vertices = graph.getVertices();
+    public Graph FloodVertex(Graph original) {
+        Graph graph = new Graph(original);
+        ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
+        Collection<Vertex> vertices = graph.getListOfVertices();
+        for (Vertex currVertex : vertices) {
+            Integer capacity = currVertex.getState();
+            Integer value = currVertex.getState();
+            doneness.add(new EntryVertex(currVertex, capacity, value));
+        }
 
-            for (String currVertex: vertices) {
-                Short capacity = graph.getState(currVertex);
-                Short value = graph.getState(currVertex);
-                doneness.add(new EntryVertex(currVertex, capacity, value));
+        while (! doneness.isEmpty()) {
+            Collections.sort(doneness);
+
+            /* for debugging purposes*/
+            for (EntryVertex currVertex: doneness) {
+                System.out.println("Vertex Label: "+currVertex.vertex.getLabel());
+                System.out.println("CurrVertex Capacity: "+currVertex.capacity);
+                System.out.println("CurrVertex Value: "+currVertex.getValue());
             }
-
-            while (!doneness.isEmpty()) {
-                Collections.sort(doneness);
-                EntryVertex maxVertex = doneness.get(0);
-                ArrayList<String> neighbors = graph.getNeighborsBelowN(maxVertex.vertex, maxVertex.capacity);
-                if (maxVertex.value < neighbors.size()) {
-                    doneness.remove(0);
-                } else {
-                    for (String currVertex: neighbors) {
-                        graph.getVertex(currVertex).force();
-                        maxVertex.value--;
-                    }
+            System.out.println("Intermediary graph:\n"+graph.toString());
+            EntryVertex maxVertex = doneness.get(0);
+            System.out.println("vertex:"+maxVertex.vertex.getLabel()+" state value: "+maxVertex.getValue());
+            Collection<Vertex> neighbors = graph.getListOfNeighborsStateCriteria(maxVertex.vertex,Operator.LESS_THAN, maxVertex.getValue());
+            System.out.println("Neighbors: "+neighbors.toString());
+            if (maxVertex.getValue() < neighbors.size()) {
+                doneness.remove(0);
+            } else {
+                for (Vertex currVertex : neighbors) {
+                    graph.forceVertex(currVertex);
+                    maxVertex.setValue(maxVertex.getValue()-1);
                 }
             }
-            return graph;
-        }//End of FloodVertex method
-}
-
-/**
- * To help with sorting the graph in respect to the current maximum vertex
- */
-class EntryVertex implements Comparable<EntryVertex> {
-    String vertex;
-    Short capacity;
-    Short value;
-
-    /**
-     * Constructor
-     * @param vertex vertex
-     * @param capacity the starting amount that vertex contains
-     * @param value the current amount that vertex contains
-     */
-    public EntryVertex(String vertex, Short capacity, Short value) {
-        this.vertex = vertex;
-        this.capacity = capacity;
-        this.value = value;
-    }//End of EntryVertex Constructor
-
-    /**
-     * comparator for EntryVertex objects
-     * @param obj EntryVertex
-     * @return 1, 0, or -1 depending on comparable conditions
-     */
-    public int compareTo(EntryVertex obj) {
-        if (obj.getCapacity() < this.capacity) {
-            return 1;
-        } else if (obj.getCapacity().equals(this.capacity)) {
-            return 0;
-        } else {
-            return -1;
         }
-    }//End of compareTo comparator
+        return graph;
+    }//End of FloodVertex method
+
 
     /**
-     * accessor for capacity
-     * @return capacity
+     * To help with sorting the graph in respect to the current maximum vertex
      */
-    public Short getCapacity() {
-        return this.value;
-    }// End of getCapacity method
+    class EntryVertex implements Comparable<EntryVertex> {
+        Vertex vertex;
+        Integer capacity;
+        Integer value;
 
+        /**
+         * Constructor
+         *
+         * @param vertex   vertex
+         * @param capacity the starting amount that vertex contains
+         * @param value    the current amount that vertex contains
+         */
+        public EntryVertex(Vertex vertex, Integer capacity, Integer value) {
+            this.vertex = vertex;
+            this.capacity = capacity;
+            this.value = value;
+        }//End of EntryVertex Constructor
+
+        /**
+         * comparator for EntryVertex objects
+         *
+         * @param obj EntryVertex
+         * @return 1, 0, or -1 depending on comparable conditions
+         */
+        public int compareTo(EntryVertex obj) {
+            if (obj.capacity > this.capacity) {
+                return 1;
+            } else if (obj.getValue().equals(this.capacity)) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }//End of compareTo comparator
+
+        /**
+         * accessor for value
+         *
+         * @return value
+         */
+        public Integer getValue() {
+            return this.value;
+        }// End of getValue method
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+
+    }
 }
 
 /**
