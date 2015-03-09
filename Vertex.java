@@ -71,12 +71,17 @@ public class Vertex implements Comparable<Vertex>{
 	/** Accessor for vertex's label
      *	@return label
 	 */
-	public String getLabel(){return label;}
+	public String getLabel(){
+		return new String(label);
+	}//End of getLabel method
 
 	/** Acessor for vertex's coordinate
 	 *	@return coordinate
 	 */
-	public synchronized Point2D getCoordinate(){ return coordinate;}
+	public synchronized Point2D getCoordinate(){ 
+		Point2D.Float point = new Point2D.Float((float)coordinate.getX(), (float)coordinate.getY());
+		return point;
+	}//End of getCoordinate method
 
 	/** Move the vertex
 	 *	@param x delta in x axis
