@@ -57,6 +57,16 @@ public class Vertex{
 		this.state = state;
 		this.coordinate = coordinate;
 	}//End of constructor
+
+	/** Deepcopies an existing Vertex into a new one
+	 *	@param vertex Existing Vertex to be deep copied from
+	 */
+	public Vertex(Vertex vertex){
+		this.label = vertex.getLabel();
+		this.state = vertex.getState();
+		//Does this need to be deepcopied?
+		this.coordinate = vertex.getCoordinate();
+	}//End of constructor
 	
 	/** Accessor for vertex's label
      *	@return label
