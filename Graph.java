@@ -21,7 +21,7 @@ enum Operator{ LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, MORE_THAN_OR_EQUAL, MORE_TH
 
 public class Graph{
 	/** Record of number of states in the graph */
-	private TreeMap<Short, Integer> stateCount;
+	private TreeMap<Integer, Integer> stateCount;
 	/** Adjacency List in form of TreeMap */
 	private TreeMap<Vertex, HashSet<Vertex>> adjList;
 	/** List of vertex labels */
@@ -29,7 +29,7 @@ public class Graph{
 
 	/** Creates a empty graph */
 	public Graph(){
-		this.stateCount = new TreeMap<Short, Integer>();
+		this.stateCount = new TreeMap<Integer, Integer>();
 		this.adjList = new TreeMap<Vertex, HashSet<Vertex>>();
 		this.vertexList = new TreeMap<String, Vertex>();
 	}//End of constructor
@@ -38,7 +38,7 @@ public class Graph{
 	 *	@param graph Existing graph to be deep copied from
 	 */
 	public Graph(Graph graph){
-		this.stateCount = new TreeMap<Short, Integer>();
+		this.stateCount = new TreeMap<Integer, Integer>();
 		this.adjList = new TreeMap<Vertex, HashSet<Vertex>>();
 		this.vertexList = new TreeMap<String, Vertex>();
 		for(Vertex vertex : graph.getListOfVertices()){
@@ -149,7 +149,7 @@ public class Graph{
 	 */
 	public void forceVertex(Vertex vertex) throws RuntimeException{
 		if(!this.adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesn't exist in the graph!");
-		short state = vertex.getState();
+		int state = vertex.getState();
 		state++;
 		setVertexState(vertex, state);
 	}//End of forceVertex method
@@ -160,7 +160,7 @@ public class Graph{
 	 */
 	public void unforceVertex(Vertex vertex) throws RuntimeException{
 		if(!this.adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesn't exist in the graph!");
-		short state = vertex.getState();
+		int state = vertex.getState();
 		state--;
 		setVertexState(vertex, state);
 	}//End of forceVertex method
@@ -172,7 +172,7 @@ public class Graph{
 	public void forceVertex(String vertexLabel) throws RuntimeException{
 		if(!vertexList.containsKey(vertexLabel)) throw new RuntimeException("Vertex doesn't exist in the graph!");
 		Vertex vertex = vertexList.get(vertexLabel);
-		short state = vertex.getState();
+		int state = vertex.getState();
 		state++;
 		setVertexState(vertex, state);
 	}//End of forceVertex method
@@ -184,7 +184,7 @@ public class Graph{
 	public void unforceVertex(String vertexLabel) throws RuntimeException{
 		if(!vertexList.containsKey(vertexLabel)) throw new RuntimeException("Vertex doesn't exist in the graph!");
 		Vertex vertex = vertexList.get(vertexLabel);
-		short state = vertex.getState();
+		int state = vertex.getState();
 		state--;
 		setVertexState(vertex, state);
 	}//End of forceVertex method
@@ -194,7 +194,7 @@ public class Graph{
 	 *	@param state Specified state
 	 *	@throws RuntimeException Exception will be thrown if vertex does not exist in the graph
 	 */
-	public void setVertexState(String vertexLabel, short state) throws RuntimeException{
+	public void setVertexState(String vertexLabel, int state) throws RuntimeException{
 		if(!vertexList.containsKey(vertexLabel)) throw new RuntimeException("Vertex doesn't exist in the graph!");
 		this.setVertexState(vertexList.get(vertexLabel), state);
 	}//End of setVertexState
@@ -204,7 +204,7 @@ public class Graph{
 	 *	@param state Specified state
 	 *	@throws RuntimeException Exception will be thrown if vertex does not exist in the graph
 	 */
-	public void setVertexState(Vertex vertex, short state) throws RuntimeException{
+	public void setVertexState(Vertex vertex, int state) throws RuntimeException{
 		if(!this.adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesnt exist in the graph!");
 		
 		//Update stateCount record first
@@ -263,7 +263,7 @@ public class Graph{
 	 *	@return list of vertex's neighbors
 	 *	@throws RuntimeException Exception will be thrown if vertex does not exist in the graph
 	 */
-	public Collection<Vertex> getListOfNeighborsStateCriteria(Vertex vertex, Operator operator, short state) throws RuntimeException{
+	public Collection<Vertex> getListOfNeighborsStateCriteria(Vertex vertex, Operator operator, int state) throws RuntimeException{
 		if(!adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesnt exist in the graph!");
 		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
 		for(Vertex neighbor : this.adjList.get(vertex)){
@@ -292,7 +292,7 @@ public class Graph{
 	 *	@return list of vertex's neighbors
 	 *	@throws RuntimeException Exception will be thrown if vertex does not exist in the graph
 	 */
-	public Collection<Vertex> getListOfNeighborsStateCriteria(String vertexLabel, Operator operator, short state) throws RuntimeException{
+	public Collection<Vertex> getListOfNeighborsStateCriteria(String vertexLabel, Operator operator, int state) throws RuntimeException{
 		if(!vertexList.containsKey(vertexList)) throw new RuntimeException("Vertex doesnt exist in the graph!");
 		return getListOfNeighborsStateCriteria(this.vertexList.get(vertexLabel), operator, state);
 	}//End of getListOfNeighborsStateCriteria method

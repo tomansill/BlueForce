@@ -16,7 +16,7 @@ public class Vertex implements Comparable<Vertex>{
 	/** Coordinate point for a given vertex */
 	private Point2D coordinate;
 	/** Value for vertex's state */
-	private short state;
+	private int state;
 
 	/** Parametrized Constructor for Vertex Object
 	 *	@param label Vertex Label
@@ -31,7 +31,7 @@ public class Vertex implements Comparable<Vertex>{
 	 *	@param label Vertex Label
 	 *	@param state Vertex's state
 	 */
-	public Vertex(String label, short state){
+	public Vertex(String label, int state){
 		this.label = label;
 		this.state = state;
 		this.coordinate = new Point2D.Float();
@@ -52,7 +52,7 @@ public class Vertex implements Comparable<Vertex>{
 	 *	@param state Vertex's state
 	 *	@param coordinate coordinate of vertex
 	 */
-	public Vertex(String label, short state, Point2D coordinate){
+	public Vertex(String label, int state, Point2D coordinate){
 		this.label = label;
 		this.state = state;
 		this.coordinate = coordinate;
@@ -100,7 +100,7 @@ public class Vertex implements Comparable<Vertex>{
 	/** Accessor for vertex's filled status
      *	@return Vertex's state
 	 */
-	public synchronized short getState(){return this.state;}
+	public synchronized int getState(){return this.state;}
 
 	/** Hashing Method - Not sure if necessary anymore */
 	public int hashCode(){return label.hashCode();}
@@ -108,7 +108,7 @@ public class Vertex implements Comparable<Vertex>{
 	/** Sets the vertex to a specific state
 	 *	@param state State 
  	 */
-	public synchronized void setState(short state){ this.state = state; }
+	public synchronized void setState(int state){ this.state = state; }
 
 	/** Comparatable method
 	 *	@param vertex Vertex to be compared with this vertex
