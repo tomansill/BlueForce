@@ -10,7 +10,7 @@
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
-public class Vertex{
+public class Vertex implements Comparable<Vertex>{
 	/** Value for vertex label */
 	private String label;
 	/** Coordinate point for a given vertex */
@@ -109,4 +109,30 @@ public class Vertex{
 	 *	@param state State 
  	 */
 	public synchronized void setState(short state){ this.state = state; }
+
+	/** Comparatable method
+	 *	@param vertex Vertex to be compared with this vertex
+	 *	@return 1 if greater, 0 if equal, -1 if less than
+	 */
+	 @Override
+	public int compareTo(Vertex vertex){
+		int lab = this.label.compareTo(vertex.getLabel());
+		if(lab != 0) return lab;	
+		if(this.state == vertex.getState()) return 0;
+		else if(this.state >= vertex.getState()) return 1;
+		else return -1;
+	}//End of compareTo method
+
+	/** Equals method
+	 *	@param obj Object to be compared to
+	 *	@return true if equal, otherwise false
+	 */
+	@Override
+	public boolean equals(Object obj){
+		if(!(obj instanceof Vertex)) return false;
+		//cast
+		Vertex vertex = (Vertex)obj;
+		if(this.compareTo(vertex) != 0) return false;
+		return true;
+	}//End of equals method
 }//End of class
