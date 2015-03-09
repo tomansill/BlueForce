@@ -81,7 +81,7 @@ public class Graph{
 	public void connectVertices(Vertex vertex1, Vertex vertex2) throws RuntimeException{
 		if(!vertexList.containsKey(vertex1.getLabel())){
 			throw new RuntimeException("Cannot connect vertices! Vertex in first argument does not exist in the graph!"); 	
-		}else if(vertexList.containsKey(vertex2.getLabel())){
+		}else if(!vertexList.containsKey(vertex2.getLabel())){
 			throw new RuntimeException("Cannot connect vertices! Vertex in second argument does not exist in the graph!"); 	
 		}
 
@@ -102,7 +102,7 @@ public class Graph{
 	public void connectVertices(String vertexLabel1, String vertexLabel2) throws RuntimeException{
 		if(!vertexList.containsKey(vertexLabel1)){
 			throw new RuntimeException("Cannot connect vertices! Vertex in first argument does not exist in the graph!"); 	
-		}else if(vertexList.containsKey(vertexLabel2)){
+		}else if(!vertexList.containsKey(vertexLabel2)){
 			throw new RuntimeException("Cannot connect vertices! Vertex in second argument does not exist in the graph!"); 	
 		}
 		connectVertices(vertexList.get(vertexLabel1), vertexList.get(vertexLabel2));
