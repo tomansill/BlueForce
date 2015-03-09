@@ -17,7 +17,7 @@ import java.util.TreeMap;
 import java.util.HashSet;
 import java.util.Map;
 
-enum Operator{ LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, MORE_THAN_OR_EQUAL, MORE_THAN, NOT_EQUAL }
+enum Operator{ LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, GREATER_THAN_OR_EQUAL, GREATER_THAN, NOT_EQUAL }
 
 public class Graph{
 	/** Record of number of states in the graph */
@@ -277,9 +277,9 @@ public class Graph{
 											break;
 				case EQUAL:					if(neighbor.getState() == state) neighbors.add(neighbor);
 											break;
-				case MORE_THAN_OR_EQUAL:	if(neighbor.getState() >= state) neighbors.add(neighbor);
+				case GREATER_THAN_OR_EQUAL:	if(neighbor.getState() >= state) neighbors.add(neighbor);
 											break;
-				case MORE_THAN:				if(neighbor.getState() > state) neighbors.add(neighbor);
+				case GREATER_THAN:			if(neighbor.getState() > state) neighbors.add(neighbor);
 											break;
 				case NOT_EQUAL:				if(neighbor.getState() != state) neighbors.add(neighbor);
 				default:					break;
