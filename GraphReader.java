@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public class GraphReader{
 	private GraphReader(){}
 
-	public Graph readGraph(File filepath) throws Exception, IOException{
+	public static Graph readGraph(File filepath) throws Exception, IOException{
 		Graph graph = new Graph();
 		TreeMap<Vertex, ArrayList<String>> map = getTreeMap(filepath);
 
