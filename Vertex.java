@@ -140,4 +140,11 @@ public class Vertex implements Comparable<Vertex>{
 		if(this.compareTo(vertex) != 0) return false;
 		return true;
 	}//End of equals method
+
+	/**	ToString method
+	 *	@return String String representing the vertex
+	 */
+	public String toString(){
+		return "Vertex - Label: " + this.label + " State: " + this.state;
+	}//End of toString method
 }//End of class
