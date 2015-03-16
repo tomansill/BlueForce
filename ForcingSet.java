@@ -25,14 +25,9 @@ public class ForcingSet {
 
             Collection<Vertex> neighbors = graph.getListOfNeighborsStateCriteria(maxVertex.getVertex() ,Operator.LESS_THAN, maxVertex.getVertex().getState());
 
-            if (maxVertex.getCapacity() < neighbors.size()) {
+            if (maxVertex.getCapacity() < neighbors.size() || neighbors.isEmpty()) {
                 //remove maxVertex from the list
                 doneness.remove(0);
-            }
-
-            else if (neighbors.isEmpty()) {
-                doneness.remove(0);
-
             } else {
                 //forces each vertex in the neighbors, reduce maxVertex's capacity and update
                 for (Vertex currVertex: neighbors) {
