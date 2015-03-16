@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class ForcingSet {
 
@@ -10,37 +8,44 @@ public class ForcingSet {
      * @param original The original graph
      * @return Flooded graph
      */
-    public Graph FloodVertex(Graph original) {
+    public Graph FloodVertex(Graph original)  {
         Graph graph = new Graph(original);
         ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
         Collection<Vertex> vertices = graph.getListOfVertices();
         for (Vertex currVertex : vertices) {
             Integer capacity = currVertex.getState();
-            Integer value = currVertex.getState();
-            doneness.add(new EntryVertex(currVertex, capacity, value));
+            doneness.add(new EntryVertex(currVertex, capacity));
         }
 
         while (! doneness.isEmpty()) {
+            //try{ Thread.sleep(1000); }catch(Exception e){}
             Collections.sort(doneness);
 
-            /* for debugging purposes*/
-            for (EntryVertex currVertex: doneness) {
-                System.out.println("Vertex Label: "+currVertex.vertex.getLabel());
-                System.out.println("CurrVertex Capacity: "+currVertex.capacity);
-                System.out.println("CurrVertex Value: "+currVertex.getValue());
-            }
-            System.out.println("Intermediary graph:\n"+graph.toString());
             EntryVertex maxVertex = doneness.get(0);
-            System.out.println("vertex:"+maxVertex.vertex.getLabel()+" state value: "+maxVertex.getValue());
-            Collection<Vertex> neighbors = graph.getListOfNeighborsStateCriteria(maxVertex.vertex,Operator.LESS_THAN, maxVertex.getValue());
-            System.out.println("Neighbors: "+neighbors.toString());
-            if (maxVertex.getValue() < neighbors.size()) {
+
+            Collection<Vertex> neighbors = graph.getListOfNeighborsStateCriteria(maxVertex.getVertex() ,Operator.LESS_THAN, maxVertex.getVertex().getState());
+
+            if (maxVertex.getCapacity() < neighbors.size()) {
+                //remove maxVertex from the list
                 doneness.remove(0);
+            }
+
+            else if (neighbors.isEmpty()) {
+                doneness.remove(0);
+
             } else {
-                for (Vertex currVertex : neighbors) {
-                    graph.forceVertex(currVertex);
-                    maxVertex.setValue(maxVertex.getValue()-1);
+                //forces each vertex in the neighbors, reduce maxVertex's capacity and update
+                for (Vertex currVertex: neighbors) {
+                    for (EntryVertex cV: doneness) {
+                        if (cV.getVertex().equals(currVertex)) {
+                            cV.getVertex().setState(cV.getVertex().getState()+1);
+                            cV.setCapacity(cV.getCapacity()+1);
+                        }
+                    }
                 }
+                maxVertex.setCapacity(maxVertex.getCapacity()+(-1*neighbors.size()));
+                doneness.remove(0);
+                doneness.add(maxVertex);
             }
         }
         return graph;
@@ -51,21 +56,19 @@ public class ForcingSet {
      * To help with sorting the graph in respect to the current maximum vertex
      */
     class EntryVertex implements Comparable<EntryVertex> {
-        Vertex vertex;
-        Integer capacity;
-        Integer value;
+        private Vertex vertex;
+        private Integer capacity;
 
         /**
          * Constructor
          *
          * @param vertex   vertex
          * @param capacity the starting amount that vertex contains
-         * @param value    the current amount that vertex contains
          */
-        public EntryVertex(Vertex vertex, Integer capacity, Integer value) {
+        public EntryVertex(Vertex vertex, Integer capacity) {
             this.vertex = vertex;
             this.capacity = capacity;
-            this.value = value;
+
         }//End of EntryVertex Constructor
 
         /**
@@ -75,9 +78,9 @@ public class ForcingSet {
          * @return 1, 0, or -1 depending on comparable conditions
          */
         public int compareTo(EntryVertex obj) {
-            if (obj.capacity > this.capacity) {
+            if (obj.getVertex().getState() > this.getVertex().getState()) {
                 return 1;
-            } else if (obj.getValue().equals(this.capacity)) {
+            } else if (obj.getVertex().getState() == this.getVertex().getState()) {
                 return 0;
             } else {
                 return -1;
@@ -89,15 +92,15 @@ public class ForcingSet {
          *
          * @return value
          */
-        public Integer getValue() {
-            return this.value;
-        }// End of getValue method
 
-        public void setValue(Integer value) {
-            this.value = value;
-        }
+        public Vertex getVertex() {return this.vertex; }
+
+        public Integer getCapacity() {return this.capacity; }
+
+        public void setCapacity(Integer n) {this.capacity = n;}
 
     }
+
 }
 
 /**
