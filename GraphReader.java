@@ -59,11 +59,7 @@ public class GraphReader{
 				if(currChar == '"') label = readString(fr);
 				else if(currChar == '}'){
 					if(label != null || state != -1 || neighbors != null){
-						System.out.print("label: " + label + " state: " + state);
 						if(coordinate != null){
-							System.out.print(" coordinate: ");
-							for(int i = 0; i < 3; i++) System.out.print(coordinate + " ");
-							System.out.println(" neighbors: " + neighbors);
 							Object[] cheapTuple = new Object[2];
 							cheapTuple[0] = (Object) new Vertex(label, state, coordinate);
 							cheapTuple[1] = (Object) neighbors;
@@ -128,10 +124,13 @@ public class GraphReader{
 		while((currChar = fr.read()) != -1){
 			if(currChar == ','){
 				coordinates[count] = Float.parseFloat(str.toString());
+				str = new StringBuilder();
 				count++;
 			}
-			else if(currChar == ']') return new Point2D.Float(coordinates[0], coordinates[1]);
-			else str.append((char)currChar);
+			else if(currChar == ']'){
+				coordinates[count] = Float.parseFloat(str.toString());
+				return new Point2D.Float(coordinates[0], coordinates[1]);
+			}else str.append((char)currChar);
 		}//End of loop
 		throw new Exception("Input is not properly formatted!");
 	}//End of readCoordinates function
