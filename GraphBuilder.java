@@ -6,19 +6,63 @@
  *			This program is to be used only for research purposes
  */
 
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.awt.geom.Point2D;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class GraphBuilder{
+
+    public static Graph buildRandomGraph(int constrict) {
+        Graph graphified = new Graph();
+        // RNG
+        Random RNJesus = new Random();
+
+        //Create random amount of vertex with random value for state and add them to graph
+        Integer NumOfVertex = Math.abs(RNJesus.nextInt(constrict));
+        int MaxElementsInRow = 10;
+
+        System.out.println(NumOfVertex);
+        for (Integer i = 0; i < NumOfVertex; i++) {
+            Point2D.Float coordinate = new Point2D.Float((float)((i%MaxElementsInRow)*30), (float)((i/MaxElementsInRow)*30));
+            Vertex vertex = new Vertex(i.toString(), Math.abs(RNJesus.nextInt(constrict)), coordinate);
+            graphified.addVertex(vertex);
+        }
+        // Now we randomly connect the vertices...
+
+        for (Integer i = 0; i < Math.abs(RNJesus.nextInt(constrict)); i++) {
+            String firstVertex = ((Integer) RNJesus.nextInt(NumOfVertex)).toString();
+            String secondVertex = ((Integer) RNJesus.nextInt(NumOfVertex)).toString();
+            graphified.connectVertices(firstVertex, secondVertex);
+        }
+        return graphified;
+    }
+
+    public static Graph buildRandomGraph() {
+        Graph graphified = new Graph();
+        // RNG
+        Random RNJesus = new Random();
+
+        //Create random amount of vertex with random value for state and add them to graph
+        Integer NumOfVertex = Math.abs(RNJesus.nextInt());
+        int MaxElementsInRow = 10;
+
+        System.out.println(NumOfVertex);
+        for (Integer i = 0; i < NumOfVertex; i++) {
+            Point2D.Float coordinate = new Point2D.Float((float)((i%MaxElementsInRow)*30), (float)(i/MaxElementsInRow));
+            Vertex vertex = new Vertex(i.toString(), Math.abs(RNJesus.nextInt()), coordinate);
+            graphified.addVertex(vertex);
+        }
+        // Now we randomly connect the vertices...
+
+        for (Integer i = 0; i < Math.abs(RNJesus.nextInt()); i++) {
+            String firstVertex = ((Integer) RNJesus.nextInt(NumOfVertex)).toString();
+            String secondVertex = ((Integer) RNJesus.nextInt(NumOfVertex)).toString();
+            graphified.connectVertices(firstVertex, secondVertex);
+        }
+        return graphified;
+    }
 	
-	public static Graph buildPathGraph(int vertices){
+/*	public static Graph buildPathGraph(int vertices){
 		TreeMap<String, Vertex> list = new TreeMap<String, Vertex>();
 		for(int i = 1; i < vertices + 1; i++){
 			String label = convertToReadableLabel(i);
@@ -187,5 +231,5 @@ public class GraphBuilder{
 		str += (char)nchar;
 		return str;
 	}//End of convertToReadableLabel method
-	
+	*/
 }//End of class

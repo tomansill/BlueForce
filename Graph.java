@@ -267,12 +267,12 @@ public class Graph{
 	 *	@throws RuntimeException Exception will be thrown if vertex does not exist in the graph
 	 */
 	public Collection<Vertex> getListOfNeighborsStateCriteria(Vertex vertex, Operator operator, int state) throws RuntimeException{
-		if(!this.adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesnt exist in the graph!");
+        if(!this.adjList.containsKey(vertex)) throw new RuntimeException("Vertex doesnt exist in the graph!");
 		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
-		for(Vertex neighbor : this.adjList.get(vertex)){
-			switch(operator){
+		for(Vertex neighbor : this.adjList.get(vertex) ) {
+            switch(operator){
 				case LESS_THAN:				if(neighbor.getState() < state) neighbors.add(neighbor);
-											break;	
+											break;
 				case LESS_THAN_OR_EQUAL:	if(neighbor.getState() <= state) neighbors.add(neighbor);
 											break;
 				case EQUAL:					if(neighbor.getState() == state) neighbors.add(neighbor);
@@ -282,10 +282,12 @@ public class Graph{
 				case GREATER_THAN:			if(neighbor.getState() > state) neighbors.add(neighbor);
 											break;
 				case NOT_EQUAL:				if(neighbor.getState() != state) neighbors.add(neighbor);
-				default:					break;
+                                            break;
+				default:					System.out.println("Failed Criteria");
+                                            break;
 			}
-		}//End of loop
-		return neighbors;
+		}//End of loops
+        return neighbors;
 	}//End of getListOfNeighborsStateCriteria method
 
 	/** Accessor for list of a vertex's neighbors in the graph where neighbors' state is less than a specified number of state

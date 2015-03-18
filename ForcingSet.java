@@ -19,6 +19,7 @@ public class ForcingSet {
 
         while (! doneness.isEmpty()) {
             //try{ Thread.sleep(1000); }catch(Exception e){}
+
             Collections.sort(doneness);
 
             EntryVertex maxVertex = doneness.get(0);

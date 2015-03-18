@@ -23,7 +23,7 @@ public class GUI extends JFrame{
 			graph = GraphReader.readGraph(new File("Graphs/p5.txt"));
 		}catch(Exception e){
 			System.out.println("There was a problem reading file! " + e.getMessage());
-		}
+        }
 		screen = new RendererPanel(graph);	
 		this.add(screen);
 
