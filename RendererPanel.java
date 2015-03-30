@@ -52,7 +52,7 @@ public class RendererPanel extends JPanel{
 			for(ArrayList<Point2D> edge : edges) drawEdge(edge.get(0), edge.get(1), g2d);
 			for(Point2D vertex : vertices) drawVertex(vertex, g2d);
 		}
-
+		System.out.println("Drawn!");
 	}//End of update method
 	private void drawVertex(Point2D coordinate , Graphics2D g){
 		g.fillOval((int)(scale*(coordinate.getX()-10)), (int)(scale*(coordinate.getY()-10)), (int)(scale*20), (int)(scale*20));

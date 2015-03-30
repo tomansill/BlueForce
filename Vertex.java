@@ -91,6 +91,13 @@ public class Vertex implements Comparable<Vertex>{
 		this.coordinate.setLocation(this.coordinate.getX() + x, this.coordinate.getY() + y);	
 	}//End of move method
 
+	/** Move the vertex
+	 *	@param magnitude Point2D.Float
+	 */
+	public synchronized void move(Point2D magnitude){
+		this.coordinate.setLocation(this.coordinate.getX() + magnitude.getX(), this.coordinate.getY() + magnitude.getY());	
+	}//End of move method
+
 	/** sets the coordinate of the point
 	 *	@param point location
 	 */
