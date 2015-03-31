@@ -85,7 +85,7 @@ public static Graph buildPathGraph(int vertices){
         Graph PathGraph = new Graph();
         for (int i = 1; i < vertices+1; i++) {
             String label = convertToReadableLabel(i);
-            PathGraph.addVertex(new Vertex(label));
+            PathGraph.addVertex(new Vertex(label, new Point2D.Float((i%4)*20.0f, (i/4)*20.0f)));
             // connect vertices
             if (i != 1) {
                 PathGraph.connectVertices(label, convertToReadableLabel(i - 1));
@@ -122,7 +122,7 @@ public static Graph buildPathGraph(int vertices){
         Graph CycleGraph = new Graph();
         for (int i = 1; i < vertices+1; i++) {
             String label = convertToReadableLabel(i);
-            CycleGraph.addVertex(new Vertex(label));
+            CycleGraph.addVertex(new Vertex(label, new Point2D.Float((i%4)*20.0f, (i/4)*20.0f)));
             // connect vertices
             if (i != 1) {
                 CycleGraph.connectVertices(label, convertToReadableLabel(i - 1));

@@ -35,7 +35,8 @@ public class RendererPanel extends JPanel{
 			ArrayList<Point2D> vertices = new ArrayList<Point2D>();
 			HashSet<ArrayList<Point2D>> edges = new HashSet<ArrayList<Point2D>>();
 			for(Vertex vertex : graph.getListOfVertices()){
-				vertices.add(vertex.getCoordinate());
+				Point2D coordinate = vertex.getCoordinate();
+				vertices.add(coordinate);
 				for(Vertex neighbor : graph.getListOfNeighbors(vertex)){
 					ArrayList<Point2D> edge = new ArrayList<Point2D>();
 					edge.add(vertex.getCoordinate());
@@ -52,17 +53,18 @@ public class RendererPanel extends JPanel{
 			for(ArrayList<Point2D> edge : edges) drawEdge(edge.get(0), edge.get(1), g2d);
 			for(Point2D vertex : vertices) drawVertex(vertex, g2d);
 		}
-		System.out.println("Drawn!");
 	}//End of update method
 	private void drawVertex(Point2D coordinate , Graphics2D g){
-		g.fillOval((int)(scale*(coordinate.getX()-10)), (int)(scale*(coordinate.getY()-10)), (int)(scale*20), (int)(scale*20));
+		int x = (int) coordinate.getX() + viewportCoordinate[0];
+		int y = (int) coordinate.getY() + viewportCoordinate[1];
+		g.fillOval(x-10, y-10, 20, 20);
 		g.setColor(Color.WHITE);
-		g.fillOval((int)(scale*(coordinate.getX()-8)), (int)(scale*(coordinate.getY()-8)), (int)(scale*16), (int)(scale*16));
+		g.fillOval(x-8, y-8, 16, 16);
 		g.setColor(Color.BLACK);
 	}//End of drawVertex method
 
 	private void drawEdge(Point2D start, Point2D end, Graphics2D g){
-		g.drawLine((int)start.getX(), (int)start.getY(), (int)end.getX(), (int)end.getY());
+		g.drawLine((int)start.getX()+viewportCoordinate[0], (int)start.getY()+viewportCoordinate[1], (int)end.getX()+viewportCoordinate[0], (int)end.getY()+viewportCoordinate[1]);
 	}//End of drawEdge method
 
 	@Override
