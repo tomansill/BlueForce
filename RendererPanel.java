@@ -55,8 +55,8 @@ public class RendererPanel extends JPanel{
 		}
 	}//End of update method
 	private void drawVertex(Point2D coordinate , Graphics2D g){
-		int x = (int) coordinate.getX() + viewportCoordinate[0];
-		int y = (int) coordinate.getY() + viewportCoordinate[1];
+		int x = (int) coordinate.getX() + (this.getWidth()/2);
+		int y = (int) coordinate.getY() + (this.getHeight()/2);
 		g.fillOval(x-10, y-10, 20, 20);
 		g.setColor(Color.WHITE);
 		g.fillOval(x-8, y-8, 16, 16);
@@ -64,7 +64,7 @@ public class RendererPanel extends JPanel{
 	}//End of drawVertex method
 
 	private void drawEdge(Point2D start, Point2D end, Graphics2D g){
-		g.drawLine((int)start.getX()+viewportCoordinate[0], (int)start.getY()+viewportCoordinate[1], (int)end.getX()+viewportCoordinate[0], (int)end.getY()+viewportCoordinate[1]);
+		g.drawLine((int)start.getX()+(this.getWidth()/2), (int)start.getY()+(this.getHeight()/2), (int)end.getX()+(this.getWidth()/2), (int)end.getY()+(this.getHeight()/2));
 	}//End of drawEdge method
 
 	@Override

@@ -32,6 +32,7 @@ public class GUI extends JFrame{
 
 	private void organize(Graph graph){
 		if(graph != null){
+			centerGraph(graph);
 			//Build force table
 			HashMap<Vertex, Point2D> forcetable = new HashMap<Vertex, Point2D>();
 			for(Vertex vertex : graph.getListOfVertices()){
@@ -76,6 +77,27 @@ public class GUI extends JFrame{
 		}
 	}//End of organize method
 
+	private void centerGraph(Graph graph){
+		if(graph != null){
+			float minX = Float.POSITIVE_INFINITY;
+			float maxX = Float.NEGATIVE_INFINITY;
+			float minY = Float.POSITIVE_INFINITY;
+			float maxY = Float.NEGATIVE_INFINITY;
+			for(Vertex vertex : graph.getListOfVertices()){
+				Point2D coord = vertex.getCoordinate();
+				minX = Math.min(minX, (float)coord.getX());
+				minY = Math.min(minY, (float)coord.getY());
+				maxX = Math.max(maxX, (float)coord.getX());
+				maxY = Math.max(maxY, (float)coord.getY());
+			}
+			float length = maxX - minX;
+			float height = maxY - minY;
+			for(Vertex vertex : graph.getListOfVertices()){
+				vertex.move(-(minX+(length/2)), -(minY+(height/2)));
+			}
+		}
+	}
+
 	private void update(){
 		screen.revalidate();
 		screen.repaint();
@@ -84,7 +106,7 @@ public class GUI extends JFrame{
 	public static void main(String[] args){
 		try{
 			//Graph graph = GraphReader.readGraph(new File("Graphs/p5.txt"));
-			Graph graph = GraphBuilder.buildPathGraph(3);
+			Graph graph = GraphBuilder.buildCycleGraph(8);
 			new GUI(graph);
 		}catch(Exception e){
 			System.out.println("There was a problem reading file! " + e.getMessage());
