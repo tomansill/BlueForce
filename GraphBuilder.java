@@ -122,7 +122,7 @@ public static Graph buildPathGraph(int vertices){
         Graph CycleGraph = new Graph();
         for (int i = 1; i < vertices+1; i++) {
             String label = convertToReadableLabel(i);
-            CycleGraph.addVertex(new Vertex(label, new Point2D.Float((i%4)*20.0f, (i/4)*20.0f)));
+            CycleGraph.addVertex(new Vertex(label, new Point2D.Float((i%100)*20.0f, (i/100)*20.0f)));
             // connect vertices
             if (i != 1) {
                 CycleGraph.connectVertices(label, convertToReadableLabel(i - 1));
@@ -166,6 +166,7 @@ public static Graph buildPathGraph(int vertices){
     public static Graph buildWheelGraph(int vertices) {
         Graph WheelGraph = new Graph();
         String CenterVertex = convertToReadableLabel(1);
+        WheelGraph.addVertex(new Vertex(CenterVertex));
         for (int i = 2; i < vertices+1; i++) {
             String label = convertToReadableLabel(i);
             WheelGraph.addVertex(new Vertex(label));
@@ -205,23 +206,22 @@ public static Graph buildPathGraph(int vertices){
 		return new Graph(list);
 	}//End of buildBiPartiteGraph method */
 
-    // NEED to test (it works in theory...)
 	public static Graph buildBiPartiteGraph(int vertice1, int vertice2) {
         Graph BiPartiteGraph = new Graph();
         int sum = vertice1+vertice2;
         for (int i = 1; i < sum; i++) {
             if (i <= vertice1) {
                 BiPartiteGraph.addVertex(new Vertex("L"+i));
-            } else if ( i == vertice1) {
+            } if ( i == vertice1) {
                 BiPartiteGraph.addVertex(new Vertex("R"+vertice2));
             }
-            else {
+            else if (i >= vertice1){
                 BiPartiteGraph.addVertex(new Vertex("R"+(sum-i)));
             }
         }
         for (int i = 1; i < vertice1+1; i++) {
             for (int j = 1; j < vertice2+1; j++) {
-                BiPartiteGraph.connectVertices("L"+i, "R"+(sum-vertice2+j));
+                BiPartiteGraph.connectVertices("L"+i, "R"+(j));
             }
         }
         return BiPartiteGraph;
@@ -247,7 +247,7 @@ public static Graph buildPathGraph(int vertices){
     public static Graph buildCompleteGraph(int vertices) {
         Graph CompleteGraph = new Graph();
         for (int i = 1; i < vertices+1; i++) {
-            Vertex CurrVertex = new Vertex(convertToReadableLabel(i));
+            Vertex CurrVertex = new Vertex(convertToReadableLabel(i), new Point2D.Float((i%4)*20.0f, (i/4)*20.0f));
             CompleteGraph.addVertex(CurrVertex);
             if (i != 1) {
                 Collection<Vertex> PreviousVerteices = CompleteGraph.getListOfVertices();
@@ -287,7 +287,7 @@ public static Graph buildPathGraph(int vertices){
         // creates the graph with all unconnected vertices
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < length; j++) {
-                GridGraph.addVertex(new Vertex("(" + i + "," + j + ")"));
+                GridGraph.addVertex(new Vertex("(" + i + "," + j + ")", new Point2D.Float((i%4)*20.0f, (i/4)*20.0f)));
             }
         }
         // connects vertices
@@ -336,7 +336,33 @@ public static Graph buildPathGraph(int vertices){
 	}//End of buildTriangleGridGraph method
 	*/
 
+    public static Graph buildTriangleGridGraph(int numofVside) {
+        int numOfVertices = (numofVside*(numofVside+1))/2;
+        //init
+        Graph TriangleGridGraph = new Graph();
+        for (int i = 1; i <= numOfVertices; i++) {
+            TriangleGridGraph.addVertex(new Vertex(convertToReadableLabel(i),new Point2D.Float((i%4)*20.0f, (i/4)*20.0f)));
+        }
 
+        int currVertex = 1;
+
+        for (int row = numofVside; 0 < row; row--) {
+            for (int j = row; 0 < j ; j--) {
+                //Connect Right Vertex and Up-Right Vertex
+                if (j != 1) {
+                    TriangleGridGraph.connectVertices(convertToReadableLabel(currVertex), convertToReadableLabel(currVertex+1));
+                    TriangleGridGraph.connectVertices(convertToReadableLabel(currVertex), convertToReadableLabel(currVertex+row));
+                }
+                //Connect Up-Left Vertex
+                if (j != row) {
+                    TriangleGridGraph.connectVertices(convertToReadableLabel(currVertex), convertToReadableLabel(currVertex+row-1));
+                }
+                currVertex += 1;
+            }
+        }
+
+        return TriangleGridGraph;
+    }
 
 	public static String convertToReadableLabel(int number){
 		int carryover = 0;
