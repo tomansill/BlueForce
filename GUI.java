@@ -10,7 +10,7 @@ public class GUI extends JFrame{
 	private byte bufferNumber = 0;
 	private long time = System.currentTimeMillis();
 	public GUI(Graph graph){
-		init(400,300);
+		init(800,640);
 		screen.setGraph(graph);	
 		while(true){
 			organize(graph);
@@ -42,10 +42,12 @@ public class GUI extends JFrame{
 					if(!vertex.equals(otherVertex)){
 						float xdist = (float)(vertex.getCoordinate().getX() - otherVertex.getCoordinate().getX());	
 						float ydist = (float)(vertex.getCoordinate().getY() - otherVertex.getCoordinate().getY());	
-						float forcex = 1.0f;
-						float forcey = 1.0f;
+						float forcex = 0.1f;
+						float forcey = 0.1f;
 						if(xdist != 0) forcex = 1/xdist;
 						if(ydist != 0) forcey = 1/ydist;
+						if(forcex > 1.0f) forcex = 0.1f;
+						if(forcey > 1.0f) forcey = 0.1f;
 						System.out.println("forcex: " + forcex + "\tforcey: " + forcey);
 						force.x += forcex;
 						force.y += forcey;
