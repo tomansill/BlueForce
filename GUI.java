@@ -2,16 +2,23 @@ import java.io.File;
 import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GUI extends JFrame{
 	private RendererPanel screen = null;
 	//private ImageBuffer[] buffer = null;
 	private byte bufferNumber = 0;
+	private HashMap<Vertex, Point2D> velocityTable = new HashMap<Vertex, Point2D>();
 	private long time = System.currentTimeMillis();
+	private boolean simulation = true;
 	public GUI(Graph graph){
 		init(800,640);
 		screen.setGraph(graph);	
+		for(Vertex vertex : graph.getListOfVertices()) 	velocityTable.put(vertex, new Point2D.Float(0.0f, 0.0f));
+		//centerGraph(graph);
 		while(true){
 			organize(graph);
 			update();
@@ -32,49 +39,75 @@ public class GUI extends JFrame{
 
 	private void organize(Graph graph){
 		if(graph != null){
-			centerGraph(graph);
-			//Build force table
-			HashMap<Vertex, Point2D> forcetable = new HashMap<Vertex, Point2D>();
-			for(Vertex vertex : graph.getListOfVertices()){
-				Point2D.Float force = new Point2D.Float(0.0f,0.0f);
-				//Apply repulsion force on all vertices
-				for(Vertex otherVertex : graph.getListOfVertices()){
-					if(!vertex.equals(otherVertex)){
-						float xdist = (float)(vertex.getCoordinate().getX() - otherVertex.getCoordinate().getX());	
-						float ydist = (float)(vertex.getCoordinate().getY() - otherVertex.getCoordinate().getY());	
-						float forcex = 0.1f;
-						float forcey = 0.1f;
-						if(xdist != 0) forcex = 1/xdist;
-						if(ydist != 0) forcey = 1/ydist;
-						if(forcex > 1.0f) forcex = 0.1f;
-						if(forcey > 1.0f) forcey = 0.1f;
-						System.out.println("forcex: " + forcex + "\tforcey: " + forcey);
-						force.x += forcex;
-						force.y += forcey;
+			if(simulation){
+				centerGraph(graph);
+				HashSet<ArrayList<Vertex>> visitedPair = new HashSet<ArrayList<Vertex>>();
+				HashSet<ArrayList<Vertex>> visitedEdge = new HashSet<ArrayList<Vertex>>();
+				//Build force table
+				HashMap<Vertex, Point2D> forceTable = new HashMap<Vertex, Point2D>();
+				for(Vertex vertex : graph.getListOfVertices()){
+					Point2D.Float forceVector = new Point2D.Float(0.0f,0.0f);
+					//Apply repulsion force on all vertices
+					for(Vertex otherVertex : graph.getListOfVertices()){
+						if(!vertex.equals(otherVertex)){
+							float xdist = (float)(otherVertex.getCoordinate().getX() - vertex.getCoordinate().getX());	
+							float ydist = (float)(otherVertex.getCoordinate().getY() - vertex.getCoordinate().getY());	
+							float distance = (float)Math.sqrt(Math.pow(xdist, 2) + Math.pow(ydist, 2));
+							float force = (float)(100/Math.pow(distance, 2))+5;
+							float forcex = (xdist*force)/distance;
+							float forcey = (ydist*force)/distance;
+							if(xdist < 0.01f && xdist > -0.01f){
+								forcex = 1.1f;
+								if(Math.random() > 0.5f) forcex *= -1.0f;
+							}
+							if(ydist < 0.01f && ydist > -0.01f){
+								forcey = 1.0f;
+								if(Math.random() > 0.5f) forcey *= -1.0f;
+							}
+							forceVector.x -= forcex;
+							forceVector.y -= forcey;
+						}
 					}
-				}
-				for(Vertex neighbor : graph.getListOfNeighbors(vertex)){
+					for(Vertex neighbor : graph.getListOfNeighbors(vertex)){
 						float xdist = (float)(vertex.getCoordinate().getX() - neighbor.getCoordinate().getX());	
 						float ydist = (float)(vertex.getCoordinate().getY() - neighbor.getCoordinate().getY());	
-						float forcex = xdist*0.001f;
-						float forcey = ydist*0.001f;
-						force.x -= forcex;
-						force.y -= forcey;
+						float forcex = xdist*0.1f;
+						float forcey = ydist*0.1f;
+						forceVector.x -= forcex;
+						forceVector.y -= forcey;
+					}
+					forceTable.put(vertex, forceVector);
 				}
-				forcetable.put(vertex, force);
-			}
-			//Apply timestep and apply force on each vertex
-			for(Vertex vertex: graph.getListOfVertices()){
-				long elapsed = (System.currentTimeMillis() - time);
-				if(elapsed == 0){
-					//program is running too fast, slow down
-					try{ Thread.sleep(1); }catch(Exception e){}
-					elapsed = 1;
+				//Apply timestep and apply force on each vertex
+				boolean stopsim = true;
+				for(Vertex vertex: graph.getListOfVertices()){
+					//Change velocity
+					Point2D force = forceTable.get(vertex);
+					Point2D velocity = velocityTable.get(vertex);
+					float velox = (float)(velocity.getX() + force.getX());
+					float veloy = (float)(velocity.getY() + force.getY());
+					//Apply  friction
+					float frictionCoefficient = 0.05f;
+					velox = velox - (velox * frictionCoefficient);
+					veloy = veloy - (veloy * frictionCoefficient);
+					//if velocity is too small, just stop the velocity, dont let it move more
+					if((velox > 0.6f || velox < -0.6f) || (veloy > 0.6f || veloy < -0.6f)) stopsim = false;
+					velocity = new Point2D.Float(velox, veloy);
+
+					long elapsed = (System.currentTimeMillis() - time);
+					if(elapsed < 7){ //over 144fps
+						//program is running too fast, slow down
+						try{ Thread.sleep(7); }catch(Exception e){}
+						elapsed = 7;
+					}
+					double speed = 1.0;
+					double timestep = (elapsed/1000.0f)*speed;
+					float x = (float)(velocity.getX() * timestep);
+					float y = (float)(velocity.getY() * timestep);
+					vertex.move(x, y);
+					velocityTable.put(vertex, velocity);
 				}
-				float timestep = 16/(elapsed);
-				float x = ((float)forcetable.get(vertex).getX()) * timestep;
-				float y = ((float)forcetable.get(vertex).getY()) * timestep;
-				vertex.move(x, y);
+				if(stopsim) simulation = false;
 			}
 		}
 	}//End of organize method
@@ -94,9 +127,7 @@ public class GUI extends JFrame{
 			}
 			float length = maxX - minX;
 			float height = maxY - minY;
-			for(Vertex vertex : graph.getListOfVertices()){
-				vertex.move(-(minX+(length/2)), -(minY+(height/2)));
-			}
+			for(Vertex vertex : graph.getListOfVertices()) vertex.move(-(minX+(length/2)), -(minY+(height/2)));
 		}
 	}
 
@@ -108,7 +139,7 @@ public class GUI extends JFrame{
 	public static void main(String[] args){
 		try{
 			//Graph graph = GraphReader.readGraph(new File("Graphs/p5.txt"));
-			Graph graph = GraphBuilder.buildCycleGraph(8);
+			Graph graph = GraphBuilder.buildBiPartiteGraph(6, 4);
 			new GUI(graph);
 		}catch(Exception e){
 			System.out.println("There was a problem reading file! " + e.getMessage());

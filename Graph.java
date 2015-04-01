@@ -61,6 +61,14 @@ public class Graph{
 		return size; 
 	}//End of getSize method
 
+	/** Accessor for vertex of the graph
+	 *	@param label Label of the vertex
+	 *  @return vertex
+	 */
+	public Vertex getVertex(String label){
+		return vertexList.get(label);
+	}//End of getVertex method
+
 	/** Adds a vertex to the graph
 	 *	@param vertex Vertex to be added into the graph
 	 */
