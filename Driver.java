@@ -23,8 +23,8 @@ public class Driver{
 		String str = "";
 		str +=    	"-= Forcing Set Solver v0.5 =-"
 				+ "\n\n   Author: Thomas B. Ansill"
-                + "\n\n   Author: Brian T. Podlisny"
-				+ "\n   University: Rochester Institute of Technology"
+                + "\n   Author: Brian T. Podlisny"
+				+ "\n\n   University: Rochester Institute of Technology"
 				+ "\n   This program is used only for research purposes";
 		System.out.println(str + "\n");
 	
@@ -43,7 +43,8 @@ public class Driver{
 			input = pieces.get(0);
 			pieces.remove(0);
 			switch (input){
-                case "gui":         new GUI(graph);
+                case "gui":         GUI gui = new GUI(graph);
+                                    gui.run();
                                     break;
 				case "exit":		
 				case "quit":		in.close();
@@ -65,10 +66,10 @@ public class Driver{
 				case "display":		if(graph == null) break;
 									System.out.println(graph);
 									break;
-				case "forcingnumber":
+				case "(nonfunctional)forcingnumber":
 				case "number":		
-				case "forcing":		if(graph == null) break;
-									changeForcingNumber(pieces, in);
+				case "(nonfunctional)forcing":		if(graph == null) break;
+									//changeForcingNumber(pieces, in);
 									break;
 				case "solve":		if(graph == null) break;
 									solve(pieces, in);
@@ -87,7 +88,7 @@ public class Driver{
 		}
 	}//End of parse method
 	
-	private static void changeForcingNumber(ArrayList<String> pieces, Scanner in){
+	/*private static void changeForcingNumber(ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
 			boolean stay = true;
 			while(stay){
@@ -134,7 +135,7 @@ public class Driver{
 				
 			}
 		}
-	}//End of changeForcingNumber method
+	}//End of changeForcingNumber method*/
 	
 	private static void load(ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
@@ -188,7 +189,7 @@ public class Driver{
 			String types = "Forcing Types:\n"
 							+  "- (nonfunctional)Zero Forcing Set: 1\n"
 							+  "- (nonfunctional)Skew Zero Forcing Set: 2\n"
-							+  "- (nonfunctional)Positive Semi-Definite Forcing Set: 3\n\n"
+							+  "- (nonfunctional)Positive Semi-Definite Forcing Set: 3\n"
                             +  "- Flooding Algorithm: 4\n\n";
 			System.out.print(types);
 			boolean stay = true;
@@ -255,7 +256,7 @@ public class Driver{
 		}
 	}//End of solveResult
 	
-/*	private static void findMax(boolean max, ArrayList<String> pieces, Scanner in){
+	/*private static void findMax(boolean max, ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
 			//Assume user wants Union Searcher if there's no more pieces
 			findMax1(max, pieces, in, 3);

@@ -270,7 +270,7 @@ public class ForcingSet{
 		if(graph == null){ return false; }
 		return true;
 	}//End of isSolvable method
-	
+	*/ /*
 	public static ArrayList<Graph> forwardSearcher(Graph original, boolean maximum, int type, int forcingnumber, boolean debug){
 		if(debug) System.out.println("\nDebugging enabled!\n\r");
 		Graph graph = new Graph(original);
@@ -373,8 +373,8 @@ public class ForcingSet{
 		}//End of while loop
 		
 		return new ArrayList<Graph>(results); //Returns the results in ArrayList form
-	}//End of forwardSearcher method
-
+	}//End of forwardSearcher method */
+/*
 	public static ArrayList<Graph> reverseSearcher(Graph original, boolean maximum, int type, int forcingnumber, boolean debug){
 		if(debug) System.out.println("\nDebugging enabled!\n\r");
 		Graph graph = new Graph(original);
