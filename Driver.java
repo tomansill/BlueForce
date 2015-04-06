@@ -6,6 +6,7 @@
  *			This program is to be used only for research purposes
  */
 
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Driver{
 		String str = "";
 		str +=    	"-= Forcing Set Solver v0.5 =-"
 				+ "\n\n   Author: Thomas B. Ansill"
+                + "\n\n   Author: Brian T. Podlisny"
 				+ "\n   University: Rochester Institute of Technology"
 				+ "\n   This program is used only for research purposes";
 		System.out.println(str + "\n");
@@ -41,6 +43,8 @@ public class Driver{
 			input = pieces.get(0);
 			pieces.remove(0);
 			switch (input){
+                case "gui":         new GUI(graph);
+                                    break;
 				case "exit":		
 				case "quit":		in.close();
 									System.exit(0);
@@ -69,11 +73,11 @@ public class Driver{
 				case "solve":		if(graph == null) break;
 									solve(pieces, in);
 									break;
-				case "findmin":		if(graph == null) break;
-									findMax(false, pieces, in);
+				case "(nonfunctional)findmin":		if(graph == null) break;
+									//findMax(false, pieces, in);
 									break;
-				case "findmax":		if(graph == null) break;
-									findMax(true, pieces, in);
+				case "(nonfunctional)findmax":		if(graph == null) break;
+									//findMax(true, pieces, in);
 									break;
 				case "debug":		if(!debug) debug = true;
 									else debug = false;
@@ -109,13 +113,15 @@ public class Driver{
 		}else{
 			String input = pieces.get(0);
 			pieces.remove(0);
-			/*if(input.equals("number")){
+
+            if(input.equals("number")){
 				if(pieces.size() == 0){
 					changeForcingNumber(pieces, in);
 				}
 				input = pieces.get(0);
 				pieces.remove(0);
-			}*/
+			}
+
 			try{
 				int number = Integer.parseInt(input);
 				if(number >= 0){
@@ -151,7 +157,12 @@ public class Driver{
 					}else{
 						//Opens the file
 						System.out.println("Graph loaded!");
-						graph = new Graph(path);
+						try{
+                            graph = GraphReader.readGraph(path);
+                        }catch(Exception e){
+                            System.out.println("Failed to read the file.");
+                        }
+
 						break;
 					}
 				}
@@ -164,7 +175,10 @@ public class Driver{
 			}else{
 				//Opens the file
 				System.out.println("Graph loaded!");
-				graph = new Graph(path);
+				try { graph = GraphReader.readGraph(path); }
+                catch(Exception e) {
+                    System.out.println("Failed to read the file.");
+                }
 			}
 		}
 	}//End of load method
@@ -172,9 +186,10 @@ public class Driver{
 	private static void solve(ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
 			String types = "Forcing Types:\n"
-							+  "- Zero Forcing Set: 1\n"
-							+  "- Skew Zero Forcing Set: 2\n"
-							+  "- Positive Semi-Definite Forcing Set: 3\n\n";
+							+  "- (nonfunctional)Zero Forcing Set: 1\n"
+							+  "- (nonfunctional)Skew Zero Forcing Set: 2\n"
+							+  "- (nonfunctional)Positive Semi-Definite Forcing Set: 3\n\n"
+                            +  "- Flooding Algorithm: 4\n\n";
 			System.out.print(types);
 			boolean stay = true;
 			while(stay){
@@ -190,11 +205,15 @@ public class Driver{
 									stay = false;
 									break;
 						case "2":	solveResult(graph, 2);
-									stay = false;
+                                    stay = false;
 									break;
 						case "3":	solveResult(graph, 3);
 									stay = false;
 									break;
+                        case "4":   ForcingSet flooder = new ForcingSet();
+                                    flooder.FloodVertex(graph);
+                                    stay = false;
+                                    break;
 						default: 	System.out.println("Input not recognized");
 					}//End of switch statement
 				}
@@ -207,6 +226,8 @@ public class Driver{
 							break;
 				case "3":	solveResult(graph, 3);
 							break;
+                case "4":   solveResult(graph, 4);
+                            break;
 				default: 	System.out.println("Input not recognized");
 			}//End of switch statement
 		}
@@ -215,12 +236,14 @@ public class Driver{
 	private static void solveResult(Graph original, int select){
 		Graph graph = null;
 		switch(select){
-			case 1: graph = ForcingSet.ZeroForcingSet(original, defaultForcingNumber);
+/*			case 1: graph = ForcingSet.ZeroForcingSet(original, defaultForcingNumber);
 					break;
 			case 2: graph = ForcingSet.SkewZeroForcingSet(original, defaultForcingNumber);
 					break;
 			case 3: graph = ForcingSet.PositiveSemiDefiniteZeroForcingSet(original, defaultForcingNumber);
-					break;
+					break;*/
+            case 4: ForcingSet flooder = new ForcingSet();
+                    graph = flooder.FloodVertex(original);
 			default: break;
 		}//End of switch statement
 		System.out.println("== Original ==\n" + original);
@@ -232,12 +255,11 @@ public class Driver{
 		}
 	}//End of solveResult
 	
-	private static void findMax(boolean max, ArrayList<String> pieces, Scanner in){
+/*	private static void findMax(boolean max, ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
 			//Assume user wants Union Searcher if there's no more pieces
 			findMax1(max, pieces, in, 3);
-		
-			/*
+
 			String types = "Searcher Types:\n"
 							+  "- Forward: 1\n"
 							+  "- Reverse: 2\n" 
@@ -268,7 +290,8 @@ public class Driver{
 						default: 	System.out.println("Input not recognized");
 					}//End of switch statement
 				}
-			}//End of while loop*/
+			}//End of while loop*//**//*
+
 		}else{
 			String label = pieces.get(0);
 			
@@ -359,7 +382,7 @@ public class Driver{
 			System.out.println("No such configuration exists");
 		}
 		if(debug) System.out.println("The search took " + time/1000.0 + " seconds!");
-	}//End of solveResult
+	}//End of solveResult*/
 	
 	private static void help(){
 		String output = "";
@@ -507,4 +530,4 @@ public class Driver{
 	public static void main(String[] args){
 		terminal();
 	}//End of main method
-}//End of class
+}//End of class*/

@@ -1,5 +1,6 @@
 /**
  * @author Thomas B. Ansill
+ * @author Brian T. Podlisny
  * @date April 08, 2014	
  * University: Rochester Institute of Technology
  * 			
