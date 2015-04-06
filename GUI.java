@@ -1,5 +1,7 @@
-import java.io.File;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class GUI extends JFrame{
 	private long time = System.currentTimeMillis();
 	private boolean simulation = true;
 	private Graph graph = null;
+	private Boolean alive = true;
 	public GUI(Graph graph){
 		this.graph = graph;
 		init(800,640);
@@ -22,7 +25,7 @@ public class GUI extends JFrame{
 		for(Vertex vertex : graph.getListOfVertices()) 	velocityTable.put(vertex, new Point2D.Float(0.0f, 0.0f));
 	}//End of default constructor
 	public void run(){
-		while(true){
+		while(alive){
 			organize(graph);
 			update();
 		}
@@ -31,6 +34,12 @@ public class GUI extends JFrame{
 		//Initialization for JFrame
 		this.setSize(width, height);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter(){
+				@Override
+				public void windowClosing(WindowEvent e){
+					alive = false;
+				}
+			});
 		//Creates new JPanel
 		Graph graph = null;
 		screen = new RendererPanel(null);	
