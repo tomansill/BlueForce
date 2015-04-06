@@ -14,16 +14,19 @@ public class GUI extends JFrame{
 	private HashMap<Vertex, Point2D> velocityTable = new HashMap<Vertex, Point2D>();
 	private long time = System.currentTimeMillis();
 	private boolean simulation = true;
+	private Graph graph = null;
 	public GUI(Graph graph){
+		this.graph = graph;
 		init(800,640);
 		screen.setGraph(graph);	
 		for(Vertex vertex : graph.getListOfVertices()) 	velocityTable.put(vertex, new Point2D.Float(0.0f, 0.0f));
-		//centerGraph(graph);
+	}//End of default constructor
+	public void run(){
 		while(true){
 			organize(graph);
 			update();
 		}
-	}//End of default constructor
+	}
 	private void init(int width, int height){
 		//Initialization for JFrame
 		this.setSize(width, height);
@@ -53,7 +56,7 @@ public class GUI extends JFrame{
 							float xdist = (float)(otherVertex.getCoordinate().getX() - vertex.getCoordinate().getX());	
 							float ydist = (float)(otherVertex.getCoordinate().getY() - vertex.getCoordinate().getY());	
 							float distance = (float)Math.sqrt(Math.pow(xdist, 2) + Math.pow(ydist, 2));
-							float force = (float)(100/Math.pow(distance, 2))+5;
+							float force = (float)(10000/Math.pow(distance, 2));
 							float forcex = (xdist*force)/distance;
 							float forcey = (ydist*force)/distance;
 							if(xdist < 0.01f && xdist > -0.01f){
@@ -139,8 +142,10 @@ public class GUI extends JFrame{
 	public static void main(String[] args){
 		try{
 			//Graph graph = GraphReader.readGraph(new File("Graphs/p5.txt"));
-			Graph graph = GraphBuilder.buildBiPartiteGraph(6, 4);
-			new GUI(graph);
+			//Graph graph = GraphBuilder.buildGridGraph(6, 6);
+			Graph graph = GraphBuilder.buildTriangleGridGraph(7);
+			GUI gui = new GUI(graph);
+			gui.run();
 		}catch(Exception e){
 			System.out.println("There was a problem reading file! " + e.getMessage());
 		}

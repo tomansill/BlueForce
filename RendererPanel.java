@@ -32,11 +32,8 @@ public class RendererPanel extends JPanel{
 
 		//Collect info
 		if(graph != null){
-			ArrayList<Point2D> vertices = new ArrayList<Point2D>();
 			HashSet<ArrayList<Point2D>> edges = new HashSet<ArrayList<Point2D>>();
 			for(Vertex vertex : graph.getListOfVertices()){
-				Point2D coordinate = vertex.getCoordinate();
-				vertices.add(coordinate);
 				for(Vertex neighbor : graph.getListOfNeighbors(vertex)){
 					ArrayList<Point2D> edge = new ArrayList<Point2D>();
 					edge.add(vertex.getCoordinate());
@@ -51,7 +48,11 @@ public class RendererPanel extends JPanel{
 			}
 			//Begin drawing
 			for(ArrayList<Point2D> edge : edges) drawEdge(edge.get(0), edge.get(1), g2d);
-			for(Point2D vertex : vertices) drawVertex(vertex, g2d);
+			for(Vertex vertex : graph.getListOfVertices()){
+				drawVertex(vertex.getCoordinate(), g2d);
+				drawState(vertex.getCoordinate(), String.valueOf(vertex.getState()), g2d);
+				drawLabel(vertex.getCoordinate(), vertex.getLabel(), g2d);
+			}
 		}
 	}//End of update method
 	private void drawVertex(Point2D coordinate , Graphics2D g){
@@ -62,6 +63,18 @@ public class RendererPanel extends JPanel{
 		g.fillOval(x-8, y-8, 16, 16);
 		g.setColor(Color.BLACK);
 	}//End of drawVertex method
+
+	private void drawState(Point2D coordinate, String message, Graphics2D g){
+		int x = (int) coordinate.getX() + (this.getWidth()/2);
+		int y = (int) coordinate.getY() + (this.getHeight()/2);
+		g.drawString(message, x-5, y+5);
+	}//End of drawState method
+
+	private void drawLabel(Point2D coordinate, String message, Graphics2D g){
+		int x = (int) coordinate.getX() + (this.getWidth()/2);
+		int y = (int) coordinate.getY() + (this.getHeight()/2);
+		g.drawString(message, x+8, y-8);
+	}//End of drawState method
 
 	private void drawEdge(Point2D start, Point2D end, Graphics2D g){
 		g.drawLine((int)start.getX()+(this.getWidth()/2), (int)start.getY()+(this.getHeight()/2), (int)end.getX()+(this.getWidth()/2), (int)end.getY()+(this.getHeight()/2));
