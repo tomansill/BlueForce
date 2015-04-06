@@ -11,34 +11,35 @@ import java.util.TreeMap;
  */
 public class RandomTest {
     public static void main(String[] args) {
-        Graph graphified = new Graph();
+        //Graph graphified = new Graph();
 
         // RNG
         Random RNJesus = new Random();
 
         //Create random amount of vertex with random value for state and add them to graph
-        Integer constrict = 10000;
+        Integer constrict = 20;
         Integer NumOfVertex = Math.abs(RNJesus.nextInt(constrict));
-        int MaxElementsInRow = 10;
+        //System.out.println(NumOfVertex);
+        Graph graphified = GraphBuilder.buildRandomGraph(NumOfVertex);
+/*        int MaxElementsInRow = 10;
 
-        System.out.println(NumOfVertex);
         for (Integer i = 0; i < NumOfVertex; i++) {
-            Point2D.Float coordinate = new Point2D.Float((float)((i%MaxElementsInRow)*30), (float)(i/MaxElementsInRow));
-            Vertex vertex = new Vertex(i.toString(), Math.abs(RNJesus.nextInt(constrict)), coordinate);
+           // Point2D.Float coordinate = new Point2D.Float((float)((i%MaxElementsInRow)*30), (float)(i/MaxElementsInRow));
+            Vertex vertex = new Vertex(i.toString(), Math.abs(RNJesus.nextInt(constrict)));//, coordinate);
             graphified.addVertex(vertex);
         }
         // Now we randomly connect the vertices...
 
-        for (Integer i = 0; i < Math.abs(RNJesus.nextInt(constrict)); i++) {
+        for (Integer i = 0; i < NumOfVertex; i++) {
             String firstVertex = ((Integer)(Math.abs(RNJesus.nextInt(NumOfVertex)))).toString();
             String secondVertex = ((Integer)(Math.abs(RNJesus.nextInt(NumOfVertex)))).toString();
             graphified.connectVertices(firstVertex, secondVertex);
-        }
+        }*/
 
         System.out.println("Initial Graph:\n"+graphified.toString());
         ForcingSet i = new ForcingSet();
-        Graph finished = i.FloodVertex(graphified);
-        System.out.println("Finished Graph:\n"+finished.toString());
-        new GUI();
+        //Graph finished = i.FloodVertex(graphified);
+        //System.out.println("Finished Graph:\n"+finished.toString());
+        new GUI(graphified);
     }
 }
