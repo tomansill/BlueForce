@@ -415,6 +415,9 @@ public class Driver{
 		pieces.remove(0);
 		do{
 			switch(type){
+                case "random":      scanner = false; {graph = GraphBuilder.buildRandomGraph(10);}
+                                    break;
+
 				case "path": 		scanner = false;
 									{
 									int param1 = builderParam(pieces, in, "Enter the number of vertices for Path graph");
