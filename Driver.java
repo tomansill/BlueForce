@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class Driver{
@@ -57,6 +58,10 @@ public class Driver{
                 case "changevertex":if(graph == null)
                                     break;
                                     changeVertex(pieces, in);
+                                    break;
+                case "applyallvertex": if (graph == null)
+                                    break;
+                                    applyAllVertex(pieces, in);
                                     break;
 				case "exit":		
 				case "quit":		in.close();
@@ -145,6 +150,52 @@ public class Driver{
         }
     }
 
+    private static void applyAllVertex(ArrayList<String> pieces, Scanner in) {
+        if (pieces.size() == 0) {
+            while (true) {
+                System.out.print(">> Input the desired state ('cancel' to cancel): ");
+                String input = in.nextLine();
+                System.out.println();
+                if (input.equals("cancel") || input.equals("c") || input.equals("C")) {
+                    break;
+                } else {
+                    try {
+                        int number = Integer.parseInt(input);
+                        if (number >= 0) {
+                            Collection<Vertex> vertices = graph.getListOfVertices();
+                            for (Vertex currVertex: vertices) {
+                                graph.setVertexState(currVertex, number);
+                            }
+                            System.out.println("Success: changed all vertices to "+number);
+                            break;
+                        } else {
+                            System.out.println("Error - number must be a positive integer.");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error - the input must be a number.");
+                    }
+                }
+            }
+        } else {
+            try {
+                int number = Integer.parseInt(pieces.get(0));
+                pieces.remove(0);
+                if (number >= 0) {
+                    Collection<Vertex> vertices = graph.getListOfVertices();
+                    for (Vertex currVertex: vertices) {
+                        graph.setVertexState(currVertex, number);
+                    }
+                    System.out.println("Success: changed all vertices to "+number);
+                } else {
+                    System.out.println("Error - number must be a positive integer.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error - the input must be a number.");
+            }
+        }
+    }
+
     private static void changeVertex(ArrayList<String> pieces, Scanner in) {
         if (pieces.size() == 0) {
             boolean stay = true;
@@ -152,7 +203,7 @@ public class Driver{
                 System.out.print(">> Input the vertex label and desired state ('cancel' to cancel): ");
                 String[] input = in.nextLine().split(" ");
                 System.out.println();
-                if (input[0].equals("cancel") || input[0].equals("c") || input[0].equals('C')) {
+                if (input[0].equals("cancel") || input[0].equals("c") || input[0].equals("C")) {
                     break;
                 }else if (input.length <= 1) {
                     System.out.println("Invalid input! The format is <label> <integer>.");
