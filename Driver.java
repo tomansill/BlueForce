@@ -52,7 +52,9 @@ public class Driver{
                 case "gui":         gui();
                                     break;
 
-                case "changevertex":changeVertex(pieces, in);
+                case "changevertex":if(graph == null)
+                                    break;
+                                    changeVertex(pieces, in);
                                     break;
 				case "exit":		
 				case "quit":		in.close();
@@ -132,16 +134,11 @@ public class Driver{
             }//End of while loop
         } else {
             File path = new File(pieces.get(0));
-            if (!path.exists()) {
-                //Asks the user to check input
-                System.out.println("This file path does not exist!");
-            } else {
                 //Opens the file
-                try {
+            try {
                     graph.writeToDisk(path);
                 } catch (Exception e) {
                     System.out.println("Failed to write the file.");
-                }
             }
         }
     }
