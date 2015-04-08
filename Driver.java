@@ -344,8 +344,8 @@ public class Driver{
 		}
 	}//End of solve method
 	
-	private static void solveResult(Graph original, int select){
-		Graph graph = null;
+	private static void solveResult(Graph graph, int select){
+		Graph original = new Graph(graph);
 		switch(select){
 /*			case 1: graph = ForcingSet.ZeroForcingSet(original, defaultForcingNumber);
 					break;
@@ -354,7 +354,7 @@ public class Driver{
 			case 3: graph = ForcingSet.PositiveSemiDefiniteZeroForcingSet(original, defaultForcingNumber);
 					break;*/
             case 4: ForcingSet flooder = new ForcingSet();
-                    graph = flooder.FloodVertex(original);
+                    graph = flooder.FloodVertex(graph);
 			default: break;
 		}//End of switch statement
 		System.out.println("== Original ==\n" + original);
