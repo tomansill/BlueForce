@@ -8,6 +8,9 @@
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -43,8 +46,12 @@ public class Driver{
 			input = pieces.get(0).toLowerCase();
 			pieces.remove(0);
 			switch (input){
+                case "save":        save(pieces, in);
+                                    break;
+
                 case "gui":         gui();
                                     break;
+
                 case "changevertex":changeVertex(pieces, in);
                                     break;
 				case "exit":		
@@ -97,6 +104,47 @@ public class Driver{
 			}
 		}.start();
 	}
+
+    private static void save(ArrayList<String> pieces, Scanner in) {
+        if (pieces.size() == 0) {
+            while (true) {
+                System.out.print(">>Enter the file path to create the new graph file ('cancel' to cancel): ");
+                String input = in.nextLine();
+                System.out.println();
+                if (input.equals("cancel") || input.equals("c")) {
+                    //quits the method
+                    break;
+                } else if (input.equals("exit")) {
+                    //Forces quit
+                    in.close();
+                    System.exit(0);
+                } else {
+                    File path = new File(input);
+
+                    try {
+                        graph.writeToDisk(path);
+                    } catch (Exception e) {
+                        System.out.println("Failed to write the file.");
+                    }
+                    System.out.println("Save successful!");
+                    break;
+                }
+            }//End of while loop
+        } else {
+            File path = new File(pieces.get(0));
+            if (!path.exists()) {
+                //Asks the user to check input
+                System.out.println("This file path does not exist!");
+            } else {
+                //Opens the file
+                try {
+                    graph.writeToDisk(path);
+                } catch (Exception e) {
+                    System.out.println("Failed to write the file.");
+                }
+            }
+        }
+    }
 
     private static void changeVertex(ArrayList<String> pieces, Scanner in) {
         if (pieces.size() == 0) {
