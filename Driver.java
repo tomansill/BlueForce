@@ -25,7 +25,7 @@ public class Driver{
 	
 		String str = "";
 		str +=    	"-= Forcing Set Solver v0.5 =-"
-				+ "\n\n   Author: Thomas B. Ansill"
+				+ "\n   Author: Thomas B. Ansill"
                 + "\n\n   Author: Brian T. Podlisny"
 				+ "\n   University: Rochester Institute of Technology"
 				+ "\n   This program is used only for research purposes";
@@ -46,12 +46,12 @@ public class Driver{
 			input = pieces.get(0).toLowerCase();
 			pieces.remove(0);
 			switch (input){
-                case "save":        if(graph == null)
-                                    break;
+                case "save":        if(graph == null) break;
                                     save(pieces, in);
                                     break;
 
-                case "gui":         gui();
+                case "gui":         if(graph == null) break;
+									gui();
                                     break;
 
                 case "changevertex":if(graph == null)
