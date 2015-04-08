@@ -59,7 +59,7 @@ public class Driver{
                                     break;
                                     changeVertex(pieces, in);
                                     break;
-                case "applyallvertex": if (graph == null)
+                case "applyall": if (graph == null)
                                     break;
                                     applyAllVertex(pieces, in);
                                     break;
@@ -183,8 +183,11 @@ public class Driver{
                 pieces.remove(0);
                 if (number >= 0) {
                     Collection<Vertex> vertices = graph.getListOfVertices();
+                    System.out.println(vertices);
                     for (Vertex currVertex: vertices) {
-                        graph.setVertexState(currVertex, number);
+                        System.out.println(currVertex.toString());
+                        System.out.println(number);
+                        graph.setVertexState(currVertex.getLabel(), number);
                     }
                     System.out.println("Success: changed all vertices to "+number);
                 } else {
