@@ -63,6 +63,7 @@ public class Vertex implements Comparable<Vertex>{
 	 */
 	public Vertex(Vertex vertex){
 		this.label = vertex.getLabel(); //Doesnt need to be deepcopied
+		Integer state = new Integer(vertex.getState());
 		this.state = state;
 		this.coordinate = vertex.getCoordinate(); //Doesnt need to be deepcopied
 	}//End of constructor
