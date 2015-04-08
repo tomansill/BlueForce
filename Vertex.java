@@ -62,7 +62,7 @@ public class Vertex implements Comparable<Vertex>{
 	 *	@param vertex Existing Vertex to be deep copied from
 	 */
 	public Vertex(Vertex vertex){
-		this.vertex = vertex.getLabel(); //Doesnt need to be deepcopied
+		this.label = vertex.getLabel(); //Doesnt need to be deepcopied
 		this.state = state;
 		this.coordinate = vertex.getCoordinate(); //Doesnt need to be deepcopied
 	}//End of constructor
