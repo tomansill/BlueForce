@@ -38,12 +38,14 @@ public class Driver{
 	private static void parse(String input, Scanner in){
 		//Tokenizes the String
 		input.toLowerCase();
-		ArrayList<String> pieces = new ArrayList<String>(Arrays.asList(input.toLowerCase().split("\\s+")));
+		ArrayList<String> pieces = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 		if(pieces.size() != 0){
-			input = pieces.get(0);
+			input = pieces.get(0).toLowerCase();
 			pieces.remove(0);
 			switch (input){
                 case "gui":         gui();
+                                    break;
+                case "changevertex":changeVertex(pieces, in);
                                     break;
 				case "exit":		
 				case "quit":		in.close();
@@ -95,6 +97,59 @@ public class Driver{
 			}
 		}.start();
 	}
+
+    private static void changeVertex(ArrayList<String> pieces, Scanner in) {
+        if (pieces.size() == 0) {
+            boolean stay = true;
+            while (stay) {
+                System.out.print(">> Input the vertex label and desired state ('cancel' to cancel): ");
+                String[] input = in.nextLine().split(" ");
+                System.out.println();
+                if (input[0].equals("cancel") || input[0].equals("c") || input[0].equals('C')) {
+                    break;
+                }else if (input.length <= 1) {
+                    System.out.println("Invalid input! The format is <label> <integer>.");
+                    break;
+                } else {
+                    try {
+                        String label = input[0];
+                        int number = Integer.parseInt(input[1]);
+                        if (number >= 0) {
+                            graph.setVertexState(label, number);
+                            System.out.println("Success: changed "+label+" to "+number);
+                            break;
+                        } else {
+                            System.out.println("Error - number must be a positive integer.");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error - the format is <label> <integer>.");
+                    }
+                }
+            }
+        } else {
+            try {
+                int number = Integer.parseInt(pieces.get(1));
+                String label = pieces.get(0);
+                pieces.remove(0);
+                pieces.remove(0);
+                if (number >= 0) {
+                    try {
+                        graph.setVertexState(label, number);
+                        System.out.println("Success: changed "+label+" to "+number);
+                    }catch (RuntimeException z) {
+                        System.out.println("Vertex doesn't exist.");
+                    }
+
+                } else {
+                    System.out.println("Error - number must be a positive integer.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error - the format is changevertex <label> <integer>.");
+            }
+        }
+    }
 	
 	private static void changeForcingNumber(ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
@@ -197,7 +252,7 @@ public class Driver{
 			String types = "Forcing Types:\n"
 							+  "- (nonfunctional)Zero Forcing Set: 1\n"
 							+  "- (nonfunctional)Skew Zero Forcing Set: 2\n"
-							+  "- (nonfunctional)Positive Semi-Definite Forcing Set: 3\n\n"
+							+  "- (nonfunctional)Positive Semi-Definite Forcing Set: 3\n"
                             +  "- Flooding Algorithm: 4\n\n";
 			System.out.print(types);
 			boolean stay = true;
