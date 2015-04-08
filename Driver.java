@@ -43,7 +43,7 @@ public class Driver{
 			input = pieces.get(0);
 			pieces.remove(0);
 			switch (input){
-                case "gui":         new GUI(graph);
+                case "gui":         gui();
                                     break;
 				case "exit":		
 				case "quit":		in.close();
@@ -86,6 +86,15 @@ public class Driver{
 			}//End of switch statement
 		}
 	}//End of parse method
+
+	private static void gui(){
+		new Thread(){
+			public void run(){
+				GUI gui = new GUI(graph);
+				gui.run();
+			}
+		}.start();
+	}
 	
 	private static void changeForcingNumber(ArrayList<String> pieces, Scanner in){
 		if(pieces.size() == 0){
