@@ -8,8 +8,7 @@ public class ForcingSet {
      * @param original The original graph
      * @return Flooded graph
      */
-    public Graph FloodVertex(Graph original)  {
-        Graph graph = new Graph(original);
+    public Graph FloodVertex(Graph graph)  {
         ArrayList<EntryVertex> doneness = new ArrayList<EntryVertex>();
         Collection<Vertex> vertices = graph.getListOfVertices();
         for (Vertex currVertex : vertices) {
