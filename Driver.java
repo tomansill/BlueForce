@@ -149,7 +149,7 @@ public class Driver{
 		if(pieces.size() == 0){
 			while(true){
 				System.out.print(">>Enter the file path to the graph file ('cancel' to cancel): ");
-				String input = in.nextLine().toLowerCase();
+				String input = in.nextLine();
 				System.out.println();
 				if(input.equals("cancel") || input.equals("c")){
 					//quits the method
@@ -160,7 +160,9 @@ public class Driver{
 					System.exit(0);
 				}else{
 					File path = new File(input);
-					if(!path.exists()){
+                    System.out.println(path.toString());
+                    System.out.println(path.exists());
+                    if(!path.exists()){
 						//Asks the user to check input
 						System.out.println("This file path does not exist!");
 					}else{
