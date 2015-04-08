@@ -48,7 +48,7 @@ public class Graph{
 		for(Vertex vertex : graph.getListOfVertices()){
 			//Deepcopies a Vertex
 			Vertex newVertex = new Vertex(vertex);	
-			this.addVertex(vertex);
+			this.addVertex(newVertex);
 			for(Vertex neighbor : graph.getListOfNeighbors(vertex)){
 				if(this.vertexList.containsKey(neighbor.getLabel())){
 					this.connectVertices(vertex.getLabel(), neighbor.getLabel());
