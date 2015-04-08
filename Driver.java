@@ -160,8 +160,6 @@ public class Driver{
 					System.exit(0);
 				}else{
 					File path = new File(input);
-                    System.out.println(path.toString());
-                    System.out.println(path.exists());
                     if(!path.exists()){
 						//Asks the user to check input
 						System.out.println("This file path does not exist!");
