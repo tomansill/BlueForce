@@ -46,7 +46,9 @@ public class Driver{
 			input = pieces.get(0).toLowerCase();
 			pieces.remove(0);
 			switch (input){
-                case "save":        save(pieces, in);
+                case "save":        if(graph == null)
+                                    break;
+                                    save(pieces, in);
                                     break;
 
                 case "gui":         gui();
@@ -503,6 +505,8 @@ public class Driver{
 				+ "builder\t\t - creates a graph\n";
 		if(graph != null){
 			output +="print\t\t - prints the graph on the screen\n"
+                    + "savevertex\t\t - changes targetted vertex\n"
+                    + "save\t\t - saves current graph in desired directory\n"
 					+"solve\t\t - solves the graph with your chosen method\n"
 					+"forcingnumber\t - changes the forcing number\n"
 					+"findmax\t\t - finds the maxinum number of filled\n"
