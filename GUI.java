@@ -25,15 +25,17 @@ public class GUI extends JFrame{
 		for(Vertex vertex : graph.getListOfVertices()) 	velocityTable.put(vertex, new Point2D.Float(0.0f, 0.0f));
 	}//End of default constructor
 	public void run(){
-		while(alive){
+		while(alive && (graph != null)){
 			organize(graph);
 			update();
+			//System.out.print("\rrunning");
 		}
+		//System.out.println("\rend");
 	}
 	private void init(int width, int height){
 		//Initialization for JFrame
 		this.setSize(width, height);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter(){
 				@Override
 				public void windowClosing(WindowEvent e){
@@ -148,15 +150,4 @@ public class GUI extends JFrame{
 		screen.repaint();
 		time = System.currentTimeMillis();
 	}//End of update method
-	public static void main(String[] args){
-		try{
-			//Graph graph = GraphReader.readGraph(new File("Graphs/p5.txt"));
-			//Graph graph = GraphBuilder.buildGridGraph(6, 6);
-			Graph graph = GraphBuilder.buildTriangleGridGraph(7);
-			GUI gui = new GUI(graph);
-			gui.run();
-		}catch(Exception e){
-			System.out.println("There was a problem reading file! " + e.getMessage());
-		}
-	}
 }//End of class
