@@ -7,9 +7,13 @@
  */
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -309,6 +313,33 @@ public class Graph{
 		if(!this.vertexList.containsKey(vertexLabel)) throw new RuntimeException("Vertex doesnt exist in the graph!");
 		return getListOfNeighborsStateCriteria(this.vertexList.get(vertexLabel), operator, state);
 	}//End of getListOfNeighborsStateCriteria method
+
+	public void writeToDisk(File file) throws IOException, Exception{
+		//formats the string
+		StringBuilder str = new StringBuilder();
+		for(Vertex vertex : this.getListOfVertices()){
+			str.append("{\"" + vertex.getLabel() + "\", " + vertex.getState() + ", [");
+			int count = 0;
+			for(Vertex neighbor : this.getListOfNeighbors(vertex)){
+				str.append("\"" + neighbor.getLabel() + "\"");
+				if(count != (this.getListOfNeighbors(vertex).size()-1)) str.append(", ");
+				count++;
+			}
+			int x = (int)vertex.getCoordinate().getX();
+			int y = (int)vertex.getCoordinate().getY();
+			str.append("], [" + x + "," + y + "]}\n"); 
+		}
+		//Write it to disk	
+		Writer writer = null;
+		try{
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
+			writer.write(str.toString());
+		}catch(IOException e){
+			writer.close();
+			throw e;
+		}
+		writer.close();
+	}//End of writeToDisk method
 
 	/** Creates a string that represents the contents of Graph
 	 *	@return String form that represents Graph

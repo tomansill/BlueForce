@@ -121,7 +121,7 @@ public class GUI extends JFrame{
 					vertex.move(x, y);
 					velocityTable.put(vertex, velocity);
 				}
-				if(stopsim) simulation = false;
+				//if(stopsim) simulation = false;
 			}
 		}
 	}//End of organize method
