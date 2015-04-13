@@ -244,6 +244,17 @@ public class Graph{
 		vertex.setState(state);
 	}//End of setVertexState method
 
+	/** Quickly sets all vertex's state
+	 *	@param state Vertex's state
+	 */
+	public void setAllVerticesState(int state){
+		this.stateCount = new TreeMap<Integer, Integer>(); 
+		this.stateCount.put(state, this.vertexList.size());
+		for(Vertex vertex : this.getListOfVertices()){
+			vertex.setState(state);
+		}
+	}//End of setVertexState method
+
 	/** Accessor for list of vertices in the graph
 	 *	@return list of vertices
 	 */

@@ -68,8 +68,8 @@ public class GUI extends JFrame{
 							float ydist = (float)(otherVertex.getCoordinate().getY() - vertex.getCoordinate().getY());	
 							float distance = (float)Math.sqrt(Math.pow(xdist, 2) + Math.pow(ydist, 2));
 							float force = (float)(10000/Math.pow(distance, 2));
-							float forcex = (xdist*force)/distance;
-							float forcey = (ydist*force)/distance;
+							float forcex = ((graph.getListOfNeighbors(vertex).size())*xdist*force)/distance;
+							float forcey = ((graph.getListOfNeighbors(vertex).size())*ydist*force)/distance;
 							if(xdist < 0.01f && xdist > -0.01f){
 								forcex = 1.1f;
 								if(Math.random() > 0.5f) forcex *= -1.0f;

@@ -162,9 +162,8 @@ public class Driver{
                     try {
                         int number = Integer.parseInt(input);
                         if (number >= 0) {
-                            Collection<Vertex> vertices = graph.getListOfVertices();
-                            for (Vertex currVertex: vertices) {
-                                graph.setVertexState(currVertex, number);
+                            for (Vertex currVertex: graph.getListOfVertices()) {
+                                graph.setAllVerticesState(number);
                             }
                             System.out.println("Success: changed all vertices to "+number);
                             break;
@@ -182,12 +181,8 @@ public class Driver{
                 int number = Integer.parseInt(pieces.get(0));
                 pieces.remove(0);
                 if (number >= 0) {
-                    Collection<Vertex> vertices = graph.getListOfVertices();
-                    System.out.println(vertices);
-                    for (Vertex currVertex: vertices) {
-                        System.out.println(currVertex.toString());
-                        System.out.println(number);
-                        graph.setVertexState(currVertex.getLabel(), number);
+                    for (Vertex currVertex: graph.getListOfVertices()) {
+												graph.setAllVerticesState(number);
                     }
                     System.out.println("Success: changed all vertices to "+number);
                 } else {
@@ -376,7 +371,7 @@ public class Driver{
 									stay = false;
 									break;
                         case "4":   ForcingSet flooder = new ForcingSet();
-                                    flooder.FloodVertex(graph);
+                                    graph = flooder.FloodVertex(graph);
                                     stay = false;
                                     break;
 						default: 	System.out.println("Input not recognized");
