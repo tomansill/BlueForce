@@ -55,7 +55,7 @@ public class Driver{
 									gui();
                                     break;
 
-                case "changevertex":if(graph == null)
+                case "change":if(graph == null)
                                     break;
                                     changeVertex(pieces, in);
                                     break;
